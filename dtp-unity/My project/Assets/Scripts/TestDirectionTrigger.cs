@@ -8,8 +8,9 @@ public class TestDirectionTrigger : DialogueReader
 {
     [SerializeField] TextMeshProUGUI TextBox;
     public Dialogue dialogue;
-    [SerializeField] GameObject LocationObject;
-    [SerializeField] GameObject CharacterObject;
+    [SerializeField] GameObject LocationObjectPrefab;
+    GameObject Location;
+    [SerializeField] GameObject CharacterObjectPrefab;
     List<GameObject> CharacterObjects;
     [SerializeField] Vector2[] CharacterPositions;
 
@@ -27,25 +28,24 @@ public class TestDirectionTrigger : DialogueReader
 
     public override void InstantiateScene()
     {
-        Instantiate(LocationObject);
+        Location = Instantiate(LocationObjectPrefab);
         for (int i = 0; i < 4; i++)
         {
-            GameObject tmp = Instantiate(CharacterObject);
+            GameObject tmp = Instantiate(CharacterObjectPrefab);
             tmp.name = i.ToString();
             CharacterObjects.Add(tmp);
         }       
     }
     public override void RefreshScene()
     {
-        LocationObject.GetComponent<SpriteRenderer>().sprite = location.Sprite;
-        LocationObject.GetComponent<AudioSource>().clip = Talking.Character.SoundFont;
+        Location.GetComponent<SpriteRenderer>().sprite = location.Sprite;
         for (int i = 0; i < 4; i++)
         {
             if(i < charactersInScene.Length)
             {
                 if(charactersInScene[i].Talking == true)
                 {
-                    LocationObject.GetComponent<AudioSource>().clip = charactersInScene[i].Character.SoundFont;
+                    Location.GetComponent<AudioSource>().clip = charactersInScene[i].Character.SoundFont;
                     outputName = charactersInScene[i].Name;
                     baseTextSpeed = charactersInScene[i].Character.TalkSpeed;
                     textSpeed = baseTextSpeed;
@@ -60,7 +60,7 @@ public class TestDirectionTrigger : DialogueReader
 
     public override void PlaySoundFont()
     {
-        LocationObject.GetComponent<AudioSource>().Play();
+        Location.GetComponent<AudioSource>().Play();
     }
 
     public override IEnumerator SkipTextAnimation()
