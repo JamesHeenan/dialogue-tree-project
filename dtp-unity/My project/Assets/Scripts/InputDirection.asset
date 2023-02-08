@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c65d06c955208f442a6259d0f7090a29, type: 3}
   m_Name: InputDirection
   m_EditorClassIdentifier: 
-  Location: {fileID: 0}
-  Characters: []
-  Text: 
+  Location: {fileID: 11400000, guid: 500875f1a4639a74f8b7ef72c741e1a1, type: 2}
+  Characters:
+  - Name: Detective
+    Character: {fileID: 11400000, guid: 17858a7b2a7cff646af83be853887b90, type: 2}
+    Emotion: 0
+    Talking: 1
+  Text: Hey kid, I'm a Detective.
   Inputs:
-  - 
-  - 
+  - Hi Detective, I'm Dad
+  - More info pls

@@ -2,60 +2,85 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class DialogueReader : MonoBehaviour
+public abstract class DialogueReader : MonoBehaviour
 {   
-    public string outputText;
+    public string outputText = "";
 
+    public string outputName = "";
     public float textSpeed;
-    public float pressed;
+    public float baseTextSpeed;
     public Location location;
     public ActiveCharacter[] charactersInScene;
-    public void ReadDialogue(Dialogue dialogue)
+    public ActiveCharacter Talking;
+    int j = -1;
+    public void StartDialogue(Dialogue dialogue)
     {
-        NewScene();
-        Script baseScript = dialogue.DialogueTree[0];
+        int j = -1;
+        InstantiateScene();
+        for (int i = 0; i < dialogue.DialogueTree.Length; i++)
+        {
+            ReadScript(dialogue.DialogueTree[i]);
+            if(j > -1) i = j-1;
+        }
     }
     public void ReadScript(Script script)
     {
-        
+        j = -1;
+        for (int i = 0; i < script.Directions.Length; i++)
+        {
+            PlayDirection((InputDirection)script.Directions[i]);
+            if(j > -1) break;
+        }        
     }
 
-    public void PlayDirection(Direction direction)
+    public void PlayDirection(InputDirection direction)
+    {
+        PlayDirectionBase((Direction)direction, () => 
+        {
+            if(direction is InputDirection)
+            { 
+                StartCoroutine(OutputOptions(direction.Inputs));
+                j =AwaitInput();
+            }
+            else
+            {
+                Continue();
+                j = -1;
+            }
+        });
+
+    }
+
+    // public int PlayDirection(Direction direction)
+    // {
+    //     PlayDirectionBase(direction);
+    //     Continue();
+    //     return -1;
+    // }
+    private int AwaitInput()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void PlayDirectionBase(Direction direction, Action action)
     {
         location = direction.Location;
         charactersInScene = direction.Characters;
         RefreshScene();
-        if(outputText != null)
+        if(outputText != "")
             outputText += "\n";
-        string outputName = "?????";
-        foreach(ActiveCharacter chararacter in direction.Characters)
-            if(chararacter.Talking)
-            {
-                outputName = chararacter.Name;
-                textSpeed = chararacter.Character.TalkSpeed;
-                break;
-            }
-        outputText += outputName + ":\n";
-        StopAllCoroutines();
+        outputText += outputName + ":\n";  
+        StartCoroutine(OutputText(direction.Text, action));
     }
 
-    public IEnumerator SkipAnim()
+    public IEnumerator OutputText(string text, Action action)
     {
-        if(pressed > 0)
-        {
-            textSpeed = 0;
-            StopCoroutine(SkipAnim());
-        }
-        yield return null;
-    }
-
-    public IEnumerator OutputDirectionText(Direction direction)
-    {
-        StartCoroutine(SkipAnim());
+        StartCoroutine(SkipTextAnimation());
         yield return new WaitForSeconds(1f);
-        foreach(char letter in direction.Text.ToCharArray())
+        foreach(char letter in text.ToCharArray())
         {
             outputText += letter;
+            Debug.Log(outputText);
             PlaySoundFont();
             if(letter == '.' || letter == '!')
                 yield return new WaitForSeconds(textSpeed*25f);
@@ -63,34 +88,22 @@ public class DialogueReader : MonoBehaviour
                 yield return new WaitForSeconds(textSpeed*12.5f);
             yield return new WaitForSeconds(textSpeed);
         }
-        StopCoroutine(OutputDirectionText(direction));
-        StopCoroutine(SkipAnim());
+        action();
+        StopAllCoroutines();
     }
-    public void OutputDirectionText(InputDirection inputDirection, string output)
+    public IEnumerator OutputOptions(string[] Inputs)
     {
-        OutputDirectionText(direction : inputDirection);
-
-        for (int i = 0; i < inputDirection.Inputs.Length; i++)
+        for (int i = 0; i < Inputs.Length; i++)
         {
-            CreateLink(inputDirection.Inputs[i]);
-        }
+            outputText += "\n" + (i+1) + ": " + Inputs[i];
+        } 
+        yield return null;
     }
-    public void CreateLink(string input)
-    {
-
-    }
-    public void RefreshScene()
-    {
-        //left blank for abstraction
-    }
-    public void NewScene()
-    {
-        //left blank for abstraction
-    }
-    public void PlaySoundFont()
-    {
-        //left blank for abstraction
-    }
+    public abstract void RefreshScene();
+    public abstract void InstantiateScene();
+    public abstract void PlaySoundFont();
+    public abstract IEnumerator SkipTextAnimation();
+    public abstract IEnumerator Continue();
 
 }
 
