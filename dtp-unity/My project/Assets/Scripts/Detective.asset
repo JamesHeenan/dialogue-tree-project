@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Sprites:
   - {fileID: 21300000, guid: 38f8b1b95c2171f4eb6aed5fec5970ca, type: 3}
-  SoundFont: {fileID: 0}
+  SoundFont: {fileID: 8300000, guid: 9b1352b19bf532144aab7dadb87fae5a, type: 3}
   TalkSpeed: 0.01
