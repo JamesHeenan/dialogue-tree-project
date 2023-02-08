@@ -18,8 +18,7 @@ public class TestDirectionTrigger : DialogueReader
     void Start()
     {
         CharacterObjects = new List<GameObject>();
-        StartDialogue(dialogue);
-
+        ContinueDialogue(dialogue);
     }
     void Update() 
     {
@@ -39,7 +38,7 @@ public class TestDirectionTrigger : DialogueReader
     public override void RefreshScene()
     {
         LocationObject.GetComponent<SpriteRenderer>().sprite = location.Sprite;
-        LocationObject.GetComponent<AudioSource>();
+        LocationObject.GetComponent<AudioSource>().clip = Talking.Character.SoundFont;
         for (int i = 0; i < 4; i++)
         {
             if(i < charactersInScene.Length)
@@ -75,13 +74,5 @@ public class TestDirectionTrigger : DialogueReader
             textSpeed = baseTextSpeed;
         }
         yield return null;
-    }
-    public override IEnumerator Continue()
-    {
-        while(continuePressed < 0)
-        {        
-            yield return null;
-        }   
-        StopCoroutine(Continue());
     }
 }

@@ -21,10 +21,17 @@ public class ActiveCharacter
     } 
 }
 
-[CreateAssetMenu(fileName = "Direction", menuName = "DialogueObjects/Direction", order = 0)]
-public class Direction : ScriptableObject 
+public abstract class DirectionBase :ScriptableObject
 {
     public Location Location;
     public ActiveCharacter[] Characters;
     [TextArea(3,10)] public string Text;
+
+}
+
+[CreateAssetMenu(fileName = "Direction", menuName = "DialogueObjects/Direction", order = 0)]
+[System.Serializable]
+public class Direction : DirectionBase
+{
+    public int output = -1;
 }
