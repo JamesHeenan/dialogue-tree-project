@@ -17,6 +17,7 @@ public abstract class DialogueReader : MonoBehaviour
     
     bool DialogueStarted = false;
     bool InputReady = false;
+    
     public void StartDialogue(Dialogue dialogue)
     {
         InstantiateScene();
