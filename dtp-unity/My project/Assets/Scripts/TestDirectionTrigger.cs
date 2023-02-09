@@ -14,16 +14,21 @@ public class TestDirectionTrigger : DialogueReader
     List<GameObject> CharacterObjects;
     [SerializeField] Vector2[] CharacterPositions;
 
-    float continuePressed;
+    Controls controls;
 
     void Start()
     {
+        controls = new Controls();
+        controls.Enable();
         CharacterObjects = new List<GameObject>();
         ContinueDialogue(dialogue);
     }
     void Update() 
     {
-        TextBox.text = outputText; 
+        AssignNextButton();
+        DirectionTrigger();
+        TextBox.text = outputText;
+        if(NextDirectionReady) ContinueDialogue(dialogue);
     }
 
     public override void InstantiateScene()
@@ -63,16 +68,13 @@ public class TestDirectionTrigger : DialogueReader
         Location.GetComponent<AudioSource>().Play();
     }
 
-    public override IEnumerator SkipTextAnimation()
+    public override void AssignNextButton()
     {
-        if(continuePressed > 0)
-        {
-            textSpeed = 0.25f * baseTextSpeed;
-        }
-        else
-        {
-            textSpeed = baseTextSpeed;
-        }
-        yield return null;
+        NextPressed = controls.FindAction("Next").ReadValue<float>();
+    }
+
+    public override void AssignNumericalInput()
+    {
+        throw new System.NotImplementedException();
     }
 }
