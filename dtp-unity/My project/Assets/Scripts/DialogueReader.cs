@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public abstract class DialogueReader : MonoBehaviour
 {   
+    TextHandler textHandler;
     public float NextPressed;
     public int NumericalInput;
     public string outputText = "";
