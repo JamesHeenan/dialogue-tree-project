@@ -18,7 +18,9 @@ MonoBehaviour:
     Character: {fileID: 11400000, guid: 17858a7b2a7cff646af83be853887b90, type: 2}
     Emotion: 0
     Talking: 1
+    Position: {x: 0, y: 0}
   Text: Hey kid, I'm a Detective.
   Inputs:
   - Hi Detective, I'm Dad
   - More info pls
+  outputs: 0000000000000000

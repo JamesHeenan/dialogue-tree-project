@@ -9,7 +9,7 @@ public class ActiveCharacter
     public Character Character;
     public Emotion Emotion;
     public bool Talking;
-
+    public Vector2 Position;
     public Sprite GetEmotion()
     {    
         if(Character.Sprites[(int)Emotion] == null)

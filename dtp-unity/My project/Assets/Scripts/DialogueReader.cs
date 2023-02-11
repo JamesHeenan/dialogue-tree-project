@@ -16,39 +16,43 @@ public abstract class DialogueReader : MonoBehaviour
     public ActiveCharacter Talking;
     int ScriptNumber = -1;
     int DirectionNumber = 0;
-    
-    bool DialogueStarted = false;
     public bool DirectionComplete = false;
     public bool NextDirectionReady = false;
     Type DirectionType;
+    int[] Outputs;
+    int TotalOptions;
     
     public void StartDialogue(Dialogue dialogue)
     {
         InstantiateScene();
-        DialogueStarted = true;
         ScriptNumber = 0;
-        DirectionNumber = 0;
-        PlayAndStoreNextPosition(dialogue.DialogueTree);    
+        DirectionNumber = 1;
+        PlayDirection(dialogue.DialogueTree[0].Directions[0]);   
     }
 
     public void ContinueDialogue(Dialogue dialogue)
     {
-        if(!DialogueStarted)
+        if(NextDirectionReady)
         {
-            StartDialogue(dialogue);       
-        }
-        else
-        {
-            PlayAndStoreNextPosition(dialogue.DialogueTree);
+            NextDirectionReady = false;
+            FindPlayAndStoreNextPosition(dialogue.DialogueTree);
         }
     }
 
-    public void PlayAndStoreNextPosition(Script[] script)
+    public void FindPlayAndStoreNextPosition(Script[] script)
     {   
-        
-        DirectionComplete = false;
         NextDirectionReady = false;
-        PlayDirection(script[ScriptNumber].Directions[DirectionNumber]);
+        switch(DirectionType.Name)
+        {
+            case "Direction":
+                if(Outputs[0] != -1) DirectionNumber = Outputs[0];                
+                break;
+            case "InputDirection":
+                ScriptNumber = Outputs[NumericalInput-1];
+                DirectionNumber = 0;
+                break;
+        }    
+        PlayDirection(script[ScriptNumber].Directions[DirectionNumber]);     
         if(DirectionNumber < script[ScriptNumber].Directions.Length -1)
             DirectionNumber++;
         else
@@ -57,6 +61,7 @@ public abstract class DialogueReader : MonoBehaviour
 
     public void PlayDirection(DirectionBase direction)
     {
+        DirectionComplete = false;
         DirectionType = direction.GetType();
         location = direction.Location;
         charactersInScene = direction.Characters;
@@ -75,21 +80,23 @@ public abstract class DialogueReader : MonoBehaviour
                     PlayDirection((InputDirection)direction);
                     break;
             }
+            DirectionComplete = true;
         }));
     }
 
     public void PlayDirection(Direction direction)
     {
         Debug.Log("Direction played in direction of type:" + direction.GetType());
-        if(direction.output != -1) ScriptNumber = direction.output;
-        DirectionComplete = true;
+        Outputs = new int[] {direction.output};
     }
     public void PlayDirection(InputDirection inputDirection)
     {
         Debug.Log("Direction played in inputDirection of type:" + inputDirection.GetType());
         string[] Inputs = inputDirection.Inputs;
         for (int i = 0; i < Inputs.Length; i++) AppendToText("\n" + (i+1) + ": " + Inputs[i]);
-        DirectionComplete = true;
+        Outputs = inputDirection.outputs;
+        TotalOptions = Inputs.Length;
+        
     }
 
     public IEnumerator TypeWrite(string text, Action action)
@@ -140,10 +147,12 @@ public abstract class DialogueReader : MonoBehaviour
             switch(DirectionType.Name)
             {
                 case "Direction":
+                    Debug.Log("Direction Ready");
                     if(NextPressed > 0) NextDirectionReady = true;
                     break;
                 case "InputDirection":
-                    if(NumericalInput > 0) NextDirectionReady = true;
+                    Debug.Log("InputDirection Ready");
+                    if(NumericalInput > 0 && NumericalInput <= TotalOptions) NextDirectionReady = true;
                     break;
             }
         }

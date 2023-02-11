@@ -21,14 +21,15 @@ public class TestDirectionTrigger : DialogueReader
         controls = new Controls();
         controls.Enable();
         CharacterObjects = new List<GameObject>();
-        ContinueDialogue(dialogue);
+        StartDialogue(dialogue);
     }
     void Update() 
     {
         AssignNextButton();
+        AssignNumericalInput();
         DirectionTrigger();
         TextBox.text = outputText;
-        if(NextDirectionReady) ContinueDialogue(dialogue);
+        ContinueDialogue(dialogue);
     }
 
     public override void InstantiateScene()
@@ -71,10 +72,20 @@ public class TestDirectionTrigger : DialogueReader
     public override void AssignNextButton()
     {
         NextPressed = controls.FindAction("Next").ReadValue<float>();
+        if(NextPressed != 0) Debug.Log("NextPressed: " + NextPressed);
     }
 
     public override void AssignNumericalInput()
     {
-        throw new System.NotImplementedException();
+        float one = controls.FindAction("one").ReadValue<float>();
+        float two = controls.FindAction("two").ReadValue<float>();
+        float three = controls.FindAction("three").ReadValue<float>();
+        float four = controls.FindAction("four").ReadValue<float>();
+        float five = controls.FindAction("five").ReadValue<float>();
+        float six = controls.FindAction("six").ReadValue<float>();
+
+        NumericalInput = (int)(one + (two*2) + (three*3) + (four*4) + (five*5) + (six*6));
+
+        if(NumericalInput != 0) Debug.Log("NumericalInput: " + NumericalInput);
     }
 }

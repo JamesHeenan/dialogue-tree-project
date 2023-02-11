@@ -35,6 +35,60 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""one"",
+                    ""type"": ""Button"",
+                    ""id"": ""25552b8a-f4ce-4daa-a8f4-94225674ef1e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""two"",
+                    ""type"": ""Button"",
+                    ""id"": ""084d6802-3085-4839-a1c4-2f10b6b4264f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""three"",
+                    ""type"": ""Button"",
+                    ""id"": ""202125f3-8c7b-42ff-830d-a7c6a2e1167e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""four"",
+                    ""type"": ""Button"",
+                    ""id"": ""4e5df10a-953e-4d2d-bfca-948b7e1bc5a0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""five"",
+                    ""type"": ""Button"",
+                    ""id"": ""aacbf4ef-9141-4593-82b3-fb61e1630670"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""six"",
+                    ""type"": ""Button"",
+                    ""id"": ""4e00bbdf-e5ac-4e75-a61f-bcdebc0eb7f1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -48,6 +102,72 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""action"": ""Next"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""115444a2-d426-462d-8cdc-8ee222880fa9"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""one"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""77c85185-49a9-4181-8c9f-2adaffbad5be"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""two"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6715317f-b51f-4a86-a065-9a499824b07c"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""three"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""08ea0f28-5551-4d4e-8393-9ec8efde6731"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""four"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7976acb9-2fad-4125-9da0-7f6172ac97a2"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""five"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b821fe4a-2bb0-4e34-9149-83a7a2a55cd8"",
+                    ""path"": ""<Keyboard>/6"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""six"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -57,6 +177,12 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         // Dialogue
         m_Dialogue = asset.FindActionMap("Dialogue", throwIfNotFound: true);
         m_Dialogue_Next = m_Dialogue.FindAction("Next", throwIfNotFound: true);
+        m_Dialogue_one = m_Dialogue.FindAction("one", throwIfNotFound: true);
+        m_Dialogue_two = m_Dialogue.FindAction("two", throwIfNotFound: true);
+        m_Dialogue_three = m_Dialogue.FindAction("three", throwIfNotFound: true);
+        m_Dialogue_four = m_Dialogue.FindAction("four", throwIfNotFound: true);
+        m_Dialogue_five = m_Dialogue.FindAction("five", throwIfNotFound: true);
+        m_Dialogue_six = m_Dialogue.FindAction("six", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -117,11 +243,23 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Dialogue;
     private IDialogueActions m_DialogueActionsCallbackInterface;
     private readonly InputAction m_Dialogue_Next;
+    private readonly InputAction m_Dialogue_one;
+    private readonly InputAction m_Dialogue_two;
+    private readonly InputAction m_Dialogue_three;
+    private readonly InputAction m_Dialogue_four;
+    private readonly InputAction m_Dialogue_five;
+    private readonly InputAction m_Dialogue_six;
     public struct DialogueActions
     {
         private @Controls m_Wrapper;
         public DialogueActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Next => m_Wrapper.m_Dialogue_Next;
+        public InputAction @one => m_Wrapper.m_Dialogue_one;
+        public InputAction @two => m_Wrapper.m_Dialogue_two;
+        public InputAction @three => m_Wrapper.m_Dialogue_three;
+        public InputAction @four => m_Wrapper.m_Dialogue_four;
+        public InputAction @five => m_Wrapper.m_Dialogue_five;
+        public InputAction @six => m_Wrapper.m_Dialogue_six;
         public InputActionMap Get() { return m_Wrapper.m_Dialogue; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -134,6 +272,24 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Next.started -= m_Wrapper.m_DialogueActionsCallbackInterface.OnNext;
                 @Next.performed -= m_Wrapper.m_DialogueActionsCallbackInterface.OnNext;
                 @Next.canceled -= m_Wrapper.m_DialogueActionsCallbackInterface.OnNext;
+                @one.started -= m_Wrapper.m_DialogueActionsCallbackInterface.OnOne;
+                @one.performed -= m_Wrapper.m_DialogueActionsCallbackInterface.OnOne;
+                @one.canceled -= m_Wrapper.m_DialogueActionsCallbackInterface.OnOne;
+                @two.started -= m_Wrapper.m_DialogueActionsCallbackInterface.OnTwo;
+                @two.performed -= m_Wrapper.m_DialogueActionsCallbackInterface.OnTwo;
+                @two.canceled -= m_Wrapper.m_DialogueActionsCallbackInterface.OnTwo;
+                @three.started -= m_Wrapper.m_DialogueActionsCallbackInterface.OnThree;
+                @three.performed -= m_Wrapper.m_DialogueActionsCallbackInterface.OnThree;
+                @three.canceled -= m_Wrapper.m_DialogueActionsCallbackInterface.OnThree;
+                @four.started -= m_Wrapper.m_DialogueActionsCallbackInterface.OnFour;
+                @four.performed -= m_Wrapper.m_DialogueActionsCallbackInterface.OnFour;
+                @four.canceled -= m_Wrapper.m_DialogueActionsCallbackInterface.OnFour;
+                @five.started -= m_Wrapper.m_DialogueActionsCallbackInterface.OnFive;
+                @five.performed -= m_Wrapper.m_DialogueActionsCallbackInterface.OnFive;
+                @five.canceled -= m_Wrapper.m_DialogueActionsCallbackInterface.OnFive;
+                @six.started -= m_Wrapper.m_DialogueActionsCallbackInterface.OnSix;
+                @six.performed -= m_Wrapper.m_DialogueActionsCallbackInterface.OnSix;
+                @six.canceled -= m_Wrapper.m_DialogueActionsCallbackInterface.OnSix;
             }
             m_Wrapper.m_DialogueActionsCallbackInterface = instance;
             if (instance != null)
@@ -141,6 +297,24 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Next.started += instance.OnNext;
                 @Next.performed += instance.OnNext;
                 @Next.canceled += instance.OnNext;
+                @one.started += instance.OnOne;
+                @one.performed += instance.OnOne;
+                @one.canceled += instance.OnOne;
+                @two.started += instance.OnTwo;
+                @two.performed += instance.OnTwo;
+                @two.canceled += instance.OnTwo;
+                @three.started += instance.OnThree;
+                @three.performed += instance.OnThree;
+                @three.canceled += instance.OnThree;
+                @four.started += instance.OnFour;
+                @four.performed += instance.OnFour;
+                @four.canceled += instance.OnFour;
+                @five.started += instance.OnFive;
+                @five.performed += instance.OnFive;
+                @five.canceled += instance.OnFive;
+                @six.started += instance.OnSix;
+                @six.performed += instance.OnSix;
+                @six.canceled += instance.OnSix;
             }
         }
     }
@@ -148,5 +322,11 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     public interface IDialogueActions
     {
         void OnNext(InputAction.CallbackContext context);
+        void OnOne(InputAction.CallbackContext context);
+        void OnTwo(InputAction.CallbackContext context);
+        void OnThree(InputAction.CallbackContext context);
+        void OnFour(InputAction.CallbackContext context);
+        void OnFive(InputAction.CallbackContext context);
+        void OnSix(InputAction.CallbackContext context);
     }
 }
