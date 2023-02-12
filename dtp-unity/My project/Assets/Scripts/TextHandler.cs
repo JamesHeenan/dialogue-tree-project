@@ -48,7 +48,6 @@ public class TextHandler : MonoBehaviour
     }
     public IEnumerator TypeWrite()
     {
-
         foreach(char c in inputText.ToCharArray())
         {
             letter = c;
@@ -68,7 +67,7 @@ public class TextHandler : MonoBehaviour
         else textSpeedModifier = 0;
     }
 
-    void SpeedUpText()
+    void SpeedUpText() //Move up a layer
     {
         if(SpeedInputPressed > 0)
         {

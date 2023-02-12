@@ -8,7 +8,6 @@ public abstract class DialogueReader : MonoBehaviour
     public float NextPressed;
     public int NumericalInput;
     public string outputText = "";
-
     public string outputName = "";
     public float textSpeed;
     public float baseTextSpeed;

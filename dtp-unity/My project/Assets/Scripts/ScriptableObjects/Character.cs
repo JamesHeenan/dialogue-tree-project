@@ -13,7 +13,6 @@ public enum Emotion
 public class Character : ScriptableObject 
 {
     public Sprite[] Sprites;
-
     public AudioClip SoundFont;
     public float TalkSpeed;
 }
