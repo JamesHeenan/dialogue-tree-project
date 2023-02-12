@@ -2,24 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class ActiveCharacter
-{
-    public string Name;
-    public Character Character;
-    public Emotion Emotion;
-    public bool Talking;
-    public Vector2 Position;
-    public Sprite GetEmotion()
-    {    
-        if(Character.Sprites[(int)Emotion] == null)
-        {
-            Debug.Log("No Sprite Found for " + Name + " " + Emotion);
-            return null;
-        }
-        else return Character.Sprites[(int)Emotion];
-    } 
-}
 
 public abstract class DirectionBase :ScriptableObject
 {
@@ -27,11 +9,22 @@ public abstract class DirectionBase :ScriptableObject
     public ActiveCharacter[] Characters;
     [TextArea(3,10)] public string Text;
 
+    int[][] IndexOutputs;
+
+    public ActiveCharacter GetTalking()
+    {
+        foreach(ActiveCharacter character in Characters)
+        {
+            if(character.Talking)
+                return character;
+        }
+        return null;
+    }
+
 }
 
 [CreateAssetMenu(fileName = "Direction", menuName = "DialogueObjects/Direction", order = 0)]
 [System.Serializable]
 public class Direction : DirectionBase
 {
-    public int output = -1;
 }

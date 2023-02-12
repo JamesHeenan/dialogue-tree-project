@@ -8,5 +8,4 @@ using UnityEngine;
 public class InputDirection : DirectionBase
 {
     [TextArea(3,10)] public string[] Inputs;
-    public int[] outputs;
 }
