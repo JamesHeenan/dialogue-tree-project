@@ -20,6 +20,10 @@ public abstract class DirectionBase :ScriptableObject
         }
         return null;
     }
+    public int[][] GetIndexOutputs()
+    {
+        return IndexOutputs;
+    }
 
 }
 

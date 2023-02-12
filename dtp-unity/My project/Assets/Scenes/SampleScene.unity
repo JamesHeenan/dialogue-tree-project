@@ -149,29 +149,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 472561114}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 605cc884417e2a64883f46388b967574, type: 3}
+  m_Script: {fileID: 0}
   m_Name: 
   m_EditorClassIdentifier: 
-  outputText: 
-  outputName: 
-  textSpeed: 0
-  baseTextSpeed: 0
-  location: {fileID: 0}
-  charactersInScene: []
-  Talking:
-    Name: 
-    Character: {fileID: 0}
-    Emotion: 0
-    Talking: 0
-  TextBox: {fileID: 2126501713}
-  dialogue: {fileID: 11400000, guid: 478464fb868193f458bbd1fe7fcf0dbf, type: 2}
-  LocationObjectPrefab: {fileID: 6685417908069720273, guid: 2cb4d15bd27588b469a81db1c3ec54aa, type: 3}
-  CharacterObjectPrefab: {fileID: 4934740896534826942, guid: f244118d59277f34d80f3cb77d07ff83, type: 3}
-  CharacterPositions:
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
 --- !u!4 &472561116
 Transform:
   m_ObjectHideFlags: 0
@@ -446,17 +426,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2126501713 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1041504266662030952, guid: 9592d9b2f823eda4b8326b152d173054, type: 3}
-  m_PrefabInstance: {fileID: 1041504266854048675}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1041504266854048675
 PrefabInstance:
   m_ObjectHideFlags: 0

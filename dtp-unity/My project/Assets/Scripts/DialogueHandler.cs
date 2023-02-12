@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public abstract class DialogueHandler : MonoBehaviour
 {
+    InputHandler inputHandler;
     TextHandler textHandler;
     Dialogue loadedDialogue;
 
@@ -11,6 +11,7 @@ public abstract class DialogueHandler : MonoBehaviour
     public void StartDialogue(Dialogue newDialogue)
     {
         loadedDialogue = newDialogue;
+        inputHandler = new InputHandler();
         textHandler = new TextHandler();
         textHandler.SetActionOnLetterAdded(() => OnLetterAdded());
         textHandler.SetActionOnTypactionOnTypeWriteCompletion(() => OnTypeWriteCompletion());
@@ -31,7 +32,7 @@ public abstract class DialogueHandler : MonoBehaviour
             }
             else
             {
-                RecieveInput(); 
+                loadedDialogue.SetIndex(RecieveInput()); 
             }
         }
     }
@@ -52,7 +53,7 @@ public abstract class DialogueHandler : MonoBehaviour
     public void PlayDirection()
     {
         ActiveCharacter speaking = loadedDialogue.GetCurrentDirection().GetTalking();
-        textHandler.SetTextSpeedOnTypeWrite(speaking.TalkSpeed);
+        textHandler.SetTextSpeedInput(speaking.TalkSpeed);
         textHandler.SetInputText(speaking.GetName() + ":\n");
         textHandler.AppendToText();
         textHandler.SetInputText(loadedDialogue.GetCurrentDirection().Text);
@@ -73,11 +74,42 @@ public abstract class DialogueHandler : MonoBehaviour
 
     public void OnLetterAdded()
     {
-        PlaySoundFont();
+        if(!SpeedUpOnContinue())
+        {
+            textHandler.ReadPunctuation();
+            PlaySoundFont();
+        }
+    }
+    public bool SpeedUpOnContinue()
+    {
+        if(inputHandler.continueButton.InputPressed()) 
+        {
+            textHandler.SetTextSpeedInput(0.01f); 
+            return true;           
+        }
+        else 
+        {
+            textHandler.SetTextSpeedInput(loadedDialogue.GetCurrentDirection().GetTalking().TalkSpeed);
+            return false;
+        }
+
     }
 
     public abstract void RefreshScene();
     public abstract void InstantiateScene();
     public abstract void PlaySoundFont();
-    public abstract int[] RecieveInput();
+    public int[] RecieveInput()
+    {
+        DirectionBase currentDirection = loadedDialogue.GetCurrentDirection();
+        switch(currentDirection.GetType().Name)
+        {
+            case "Direction":
+                if(inputHandler.continueButton.InputDown())
+                    return currentDirection.GetIndexOutputs()[0];
+                break;
+            case "InputDirection":
+                //Output for Input Direction
+                break;
+        }
+    }
 }

@@ -9,7 +9,6 @@ public class TextHandler : MonoBehaviour
     string outputText;
     string inputText;
     char letter;
-    float textSpeedOnTypeWrite;
     float textSpeedInput;
     float textSpeedModifier;
     Action actionOnLetterAdded;
@@ -28,9 +27,9 @@ public class TextHandler : MonoBehaviour
         inputText = input;
     }
 
-    public void SetTextSpeedOnTypeWrite(float input)
+    public void SetTextSpeedInput(float input)
     {
-        textSpeedOnTypeWrite = input;
+        textSpeedInput = input;
     }
     public void SetActionOnLetterAdded(Action action)
     {
@@ -52,30 +51,16 @@ public class TextHandler : MonoBehaviour
         {
             letter = c;
             actionOnLetterAdded();
-            SpeedUpText();
             outputText += c;
-            ReadPunctuation();
-            yield return new WaitForSeconds(textSpeedOnTypeWrite*textSpeedModifier);
+            yield return new WaitForSeconds(textSpeedInput*textSpeedModifier);
         }
         actionOnTypeWriteCompletion();
     }
 
-    void ReadPunctuation()
+    public void ReadPunctuation()
     {
         if(letter == '.' || letter == '!' || letter == '?') textSpeedModifier = 25f;
         else if(letter == ',') textSpeedModifier = 12.5f;
         else textSpeedModifier = 0;
-    }
-
-    void SpeedUpText() //Move up a layer
-    {
-        if(SpeedInputPressed > 0)
-        {
-            textSpeedOnTypeWrite = 0.25f * textSpeedInput;
-        }
-        else
-        {
-            textSpeedOnTypeWrite = textSpeedInput;
-        }
     }
 }
