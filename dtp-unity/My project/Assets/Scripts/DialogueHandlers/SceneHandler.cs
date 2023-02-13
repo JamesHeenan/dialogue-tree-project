@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class SceneHandler : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void RefreshScene()
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    }
+    public void InstantiateScene()
     {
-        
+
+    }
+    public void PlaySoundFont()
+    {
+
     }
 }

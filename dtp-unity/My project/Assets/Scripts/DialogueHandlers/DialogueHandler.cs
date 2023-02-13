@@ -5,35 +5,44 @@ public abstract class DialogueHandler : MonoBehaviour
 {
     InputHandler inputHandler;
     TextHandler textHandler;
-    Dialogue loadedDialogue;
 
+    SceneHandler sceneHandler;
+    Dialogue loadedDialogue;
 
     public void StartDialogue(Dialogue newDialogue)
     {
+        //Load Dialogue and Handlers
         loadedDialogue = newDialogue;
         inputHandler = new InputHandler();
         textHandler = new TextHandler();
+        sceneHandler = new SceneHandler();
+
+        //Set Up Text Handler
         textHandler.SetActionOnLetterAdded(() => OnLetterAdded());
         textHandler.SetActionOnTypactionOnTypeWriteCompletion(() => OnTypeWriteCompletion());
+
+        //Reset the Dialogue properties
         loadedDialogue.ResetDialogue();
-        InstantiateScene();
+
+        //Create the Scene probably should be in a scene handler
+        sceneHandler.InstantiateScene();
+
+        //Play first Direction
         PlayDirection();   
     }
     public void ContinueDialogue()
     {
-        if(loadedDialogue != null)
+        if(loadedDialogue.GetCurrentDirection() == null) //if no loaded direction then recieve a new direction
         {
-            RecieveAndLoadNextIndex();
-            if(!loadedDialogue.CurrentDirectionMatchesIndex())
+            RecieveAndLoadNextDirection();
+        }
+        else
+        {
+            if(!loadedDialogue.GetDirectionActive()) //if Direction does not match index, then play
             {
-                loadedDialogue.SetCurrentDirection();
-                RefreshScene();
+                sceneHandler.RefreshScene();
                 PlayDirection();
-            }
-            else
-            {
-                loadedDialogue.SetIndex(RecieveInput()); 
-            }
+            }  
         }
     }
     public void EndDialogue()
@@ -41,17 +50,16 @@ public abstract class DialogueHandler : MonoBehaviour
         textHandler = null;
         loadedDialogue = null;
     }
-
-    public void RecieveAndLoadNextIndex()
+    public void RecieveAndLoadNextDirection()
     {
         int[] nextIndex = RecieveInput();
         if(nextIndex == null) loadedDialogue.SetIndexToNextAvailableDirection();
         else loadedDialogue.SetIndex(nextIndex);
-
+        loadedDialogue.SetCurrentDirectionFromIndex();
     }
-
     public void PlayDirection()
     {
+        loadedDialogue.SetDirectionActive(true); //Set active while in play
         ActiveCharacter speaking = loadedDialogue.GetCurrentDirection().GetTalking();
         textHandler.SetTextSpeedInput(speaking.TalkSpeed);
         textHandler.SetInputText(speaking.GetName() + ":\n");
@@ -67,17 +75,25 @@ public abstract class DialogueHandler : MonoBehaviour
                 //Output for normal Direction
                 break;
             case "InputDirection":
-                //Output for Input Direction
+                InputDirection iD = (InputDirection)loadedDialogue.GetCurrentDirection();
+                textHandler.SetInputText("\n");
+                textHandler.AppendToText();
+                for(int i = 0; i < iD.Inputs.Length; i++) //write out inputs
+                {
+                    textHandler.SetInputText("\n" + (i+1) + ": " + iD.Inputs[i]);
+                    textHandler.AppendToText();
+                }
                 break;
         }
+        loadedDialogue.SetDirectionActive(false); //On end of Play set false
+        loadedDialogue.SetCurrentDirectionToNull();
     }
-
     public void OnLetterAdded()
     {
         if(!SpeedUpOnContinue())
         {
             textHandler.ReadPunctuation();
-            PlaySoundFont();
+            sceneHandler.PlaySoundFont();
         }
     }
     public bool SpeedUpOnContinue()
@@ -94,22 +110,22 @@ public abstract class DialogueHandler : MonoBehaviour
         }
 
     }
-
-    public abstract void RefreshScene();
-    public abstract void InstantiateScene();
-    public abstract void PlaySoundFont();
     public int[] RecieveInput()
     {
         DirectionBase currentDirection = loadedDialogue.GetCurrentDirection();
-        switch(currentDirection.GetType().Name)
+        while(true)
         {
-            case "Direction":
-                if(inputHandler.continueButton.InputDown())
-                    return currentDirection.GetIndexOutputs()[0];
-                break;
-            case "InputDirection":
-                //Output for Input Direction
-                break;
+            switch(currentDirection.GetType().Name)
+            {
+                case "InputDirection":
+                    if(inputHandler.GetNumericalInput() > 0)
+                        return currentDirection.GetIndexOutputs()[inputHandler.GetNumericalInput()-1];
+                    break;
+                default: //normal Direction
+                    if(inputHandler.continueButton.InputDown()) 
+                        return currentDirection.GetIndexOutputs()[0];     
+                    break;
+            }
         }
     }
 }

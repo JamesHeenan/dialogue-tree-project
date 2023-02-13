@@ -87,14 +87,14 @@ public abstract class DialogueReader : MonoBehaviour
     public void PlayDirection(Direction direction)
     {
         Debug.Log("Direction played in direction of type:" + direction.GetType());
-        Outputs = new int[] {direction.output};
+        Outputs = new int[] {direction.IndexOutputs[0][0]};
     }
     public void PlayDirection(InputDirection inputDirection)
     {
         Debug.Log("Direction played in inputDirection of type:" + inputDirection.GetType());
         string[] Inputs = inputDirection.Inputs;
         for (int i = 0; i < Inputs.Length; i++) AppendToText("\n" + (i+1) + ": " + Inputs[i]);
-        Outputs = inputDirection.outputs;
+        Outputs = inputDirection.IndexOutputs[0];
         TotalOptions = Inputs.Length;
         
     }

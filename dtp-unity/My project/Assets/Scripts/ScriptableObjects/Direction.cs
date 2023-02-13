@@ -9,7 +9,7 @@ public abstract class DirectionBase :ScriptableObject
     public ActiveCharacter[] Characters;
     [TextArea(3,10)] public string Text;
 
-    int[][] IndexOutputs;
+    public int[][] IndexOutputs;
 
     public ActiveCharacter GetTalking()
     {

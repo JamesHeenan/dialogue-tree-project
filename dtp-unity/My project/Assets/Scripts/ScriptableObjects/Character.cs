@@ -20,8 +20,8 @@ public class Character : ScriptableObject
 [System.Serializable]
 public class ActiveCharacter : Character
 {
-    [SerializeField] string Name;
-    [SerializeField] Character Character;
+    public string Name;
+    public Character Character;
     public Emotion Emotion;
     public bool Talking;
     public Vector2 Position;

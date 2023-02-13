@@ -13,18 +13,17 @@ public class Script
 [CreateAssetMenu(fileName = "Dialogue", menuName = "DialogueObjects/Dialogue", order = 0)]
 public class Dialogue : ScriptableObject
 {
-    [SerializeField] Script[] DialogueTree;
+    public Script[] DialogueTree;
     int[] index;
 
-    int[] outputs;
-
     DirectionBase CurrentDirection;
+    bool DirectionActive = false;
 
     public void ResetDialogue()
     {
         index = new int[] {0,0};
-        outputs = null;
         CurrentDirection = null;
+        DirectionActive = false;
     }
 
     public void SetIndex(int[] newIndex)
@@ -37,6 +36,14 @@ public class Dialogue : ScriptableObject
             throw new System.NotSupportedException();
         }
     }
+    public bool GetDirectionActive()
+    {
+        return DirectionActive;
+    }
+    public void SetDirectionActive(bool input)
+    {
+        DirectionActive = input;
+    }
     public bool CurrentDirectionMatchesIndex()
     {
         return DialogueTree[index[0]].Directions[index[1]] == CurrentDirection;
@@ -45,9 +52,13 @@ public class Dialogue : ScriptableObject
     {  
         return CurrentDirection;
     }
-    public void SetCurrentDirection()
+    public void SetCurrentDirectionFromIndex()
     {
         CurrentDirection = DialogueTree[index[0]].Directions[index[1]];
+    }
+    public void SetCurrentDirectionToNull()
+    {
+        CurrentDirection = null;
     }
     public void SetIndexToNextAvailableDirection()
     {
