@@ -18,7 +18,7 @@ public class Character : ScriptableObject
 }
 
 [System.Serializable]
-public class ActiveCharacter : Character
+public struct ActiveCharacter
 {
     public string Name;
     public Character Character;
@@ -26,13 +26,6 @@ public class ActiveCharacter : Character
     public bool Talking;
     public Vector2 Position;
 
-    public ActiveCharacter()
-    {
-        Sprites = Character.Sprites;
-        SoundFont = Character.SoundFont;
-        TalkSpeed = Character.TalkSpeed;
-        Emotion = Emotion.Default;
-    }
     public Sprite GetEmotion()
     {    
         if(Character.Sprites[(int)Emotion] == null)

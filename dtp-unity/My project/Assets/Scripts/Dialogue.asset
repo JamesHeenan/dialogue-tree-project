@@ -13,15 +13,8 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: 
   DialogueTree:
-  - ScriptName: Base
-    Directions:
-    - {fileID: 11400000, guid: aa3394553ef77f54e9aafe9a1b97138e, type: 2}
-    - {fileID: 11400000, guid: 2f8a2a185db19e740a6bb3f0a2f052fa, type: 2}
   - ScriptName: 
     Directions:
     - {fileID: 11400000, guid: aa3394553ef77f54e9aafe9a1b97138e, type: 2}
     - {fileID: 11400000, guid: 2f8a2a185db19e740a6bb3f0a2f052fa, type: 2}
-  - ScriptName: 
-    Directions:
-    - {fileID: 11400000, guid: aa3394553ef77f54e9aafe9a1b97138e, type: 2}
-    - {fileID: 11400000, guid: 2f8a2a185db19e740a6bb3f0a2f052fa, type: 2}
+  CurrentDirection: {fileID: 11400000, guid: aa3394553ef77f54e9aafe9a1b97138e, type: 2}

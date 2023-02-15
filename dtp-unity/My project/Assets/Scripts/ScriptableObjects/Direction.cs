@@ -2,23 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public abstract class DirectionBase :ScriptableObject
 {
     public Location Location;
     public ActiveCharacter[] Characters;
+    public int TalkingPos;
     [TextArea(3,10)] public string Text;
 
     public int[][] IndexOutputs;
 
-    public ActiveCharacter GetTalking()
+    public void SetTalkingPos()
     {
-        foreach(ActiveCharacter character in Characters)
+        for (int i = 0; i < Characters.Length; i++)
         {
-            if(character.Talking)
-                return character;
+            if(Characters[i].Talking)
+                TalkingPos = i;
         }
-        return null;
     }
     public int[][] GetIndexOutputs()
     {
@@ -28,7 +27,6 @@ public abstract class DirectionBase :ScriptableObject
 }
 
 [CreateAssetMenu(fileName = "Direction", menuName = "DialogueObjects/Direction", order = 0)]
-[System.Serializable]
 public class Direction : DirectionBase
 {
 }

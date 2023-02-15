@@ -50,8 +50,8 @@ public class TextHandler : MonoBehaviour
         foreach(char c in inputText.ToCharArray())
         {
             letter = c;
-            actionOnLetterAdded();
             outputText += c;
+            actionOnLetterAdded();
             yield return new WaitForSeconds(textSpeedInput*textSpeedModifier);
         }
         actionOnTypeWriteCompletion();

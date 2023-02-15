@@ -4,10 +4,16 @@ using UnityEngine;
 
 public abstract class InputObject
 {
+    public Controls controls;
     bool inputDown;
     bool inputPressed;
     bool inputUp;
     bool inputPressedLastFrame = false;
+
+    public void SetControls(Controls input)
+    {
+        controls = input;
+    }
     public abstract float DetectInput();
 
     public void InputRegisterInteractions()

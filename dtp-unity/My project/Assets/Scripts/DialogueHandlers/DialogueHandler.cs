@@ -5,7 +5,6 @@ public abstract class DialogueHandler : MonoBehaviour
 {
     InputHandler inputHandler;
     TextHandler textHandler;
-
     SceneHandler sceneHandler;
     Dialogue loadedDialogue;
 
@@ -13,9 +12,9 @@ public abstract class DialogueHandler : MonoBehaviour
     {
         //Load Dialogue and Handlers
         loadedDialogue = newDialogue;
-        inputHandler = new InputHandler();
-        textHandler = new TextHandler();
-        sceneHandler = new SceneHandler();
+        inputHandler = GetComponent<InputHandler>();
+        textHandler = GetComponent<TextHandler>();
+        sceneHandler = GetComponent<SceneHandler>();
 
         //Set Up Text Handler
         textHandler.SetActionOnLetterAdded(() => OnLetterAdded());
@@ -25,24 +24,17 @@ public abstract class DialogueHandler : MonoBehaviour
         loadedDialogue.ResetDialogue();
 
         //Create the Scene probably should be in a scene handler
-        sceneHandler.InstantiateScene();
-
-        //Play first Direction
-        PlayDirection();   
+        sceneHandler.ResetScene();
+        sceneHandler.RefreshScene(loadedDialogue.CurrentDirection);
+        PlayDirection();
     }
     public void ContinueDialogue()
     {
-        if(loadedDialogue.GetCurrentDirection() == null) //if no loaded direction then recieve a new direction
+        if(!loadedDialogue.GetDirectionActive()) //if direction isn't active whilst direction matches the index
         {
             RecieveAndLoadNextDirection();
-        }
-        else
-        {
-            if(!loadedDialogue.GetDirectionActive()) //if Direction does not match index, then play
-            {
-                sceneHandler.RefreshScene();
-                PlayDirection();
-            }  
+            sceneHandler.RefreshScene(loadedDialogue.CurrentDirection);
+            PlayDirection();
         }
     }
     public void EndDialogue()
@@ -60,22 +52,22 @@ public abstract class DialogueHandler : MonoBehaviour
     public void PlayDirection()
     {
         loadedDialogue.SetDirectionActive(true); //Set active while in play
-        ActiveCharacter speaking = loadedDialogue.GetCurrentDirection().GetTalking();
-        textHandler.SetTextSpeedInput(speaking.TalkSpeed);
-        textHandler.SetInputText(speaking.GetName() + ":\n");
+        Debug.Log("loaded dialogue: " + loadedDialogue.CurrentDirection);
+        textHandler.SetTextSpeedInput(loadedDialogue.CurrentDirection.Characters[loadedDialogue.CurrentDirection.TalkingPos].Character.TalkSpeed);
+        textHandler.SetInputText(loadedDialogue.CurrentDirection.Characters[loadedDialogue.CurrentDirection.TalkingPos].GetName() + ":\n");
         textHandler.AppendToText();
-        textHandler.SetInputText(loadedDialogue.GetCurrentDirection().Text);
+        textHandler.SetInputText(loadedDialogue.CurrentDirection.Text);
         StartCoroutine(textHandler.TypeWrite());
     }
     public void OnTypeWriteCompletion()
     {
-        switch(loadedDialogue.GetCurrentDirection().GetType().Name)
+        switch(loadedDialogue.CurrentDirection.GetType().Name)
         {
             case "Direction":
                 //Output for normal Direction
                 break;
             case "InputDirection":
-                InputDirection iD = (InputDirection)loadedDialogue.GetCurrentDirection();
+                InputDirection iD = (InputDirection)loadedDialogue.CurrentDirection;
                 textHandler.SetInputText("\n");
                 textHandler.AppendToText();
                 for(int i = 0; i < iD.Inputs.Length; i++) //write out inputs
@@ -86,12 +78,12 @@ public abstract class DialogueHandler : MonoBehaviour
                 break;
         }
         loadedDialogue.SetDirectionActive(false); //On end of Play set false
-        loadedDialogue.SetCurrentDirectionToNull();
     }
     public void OnLetterAdded()
     {
         if(!SpeedUpOnContinue())
         {
+            sceneHandler.RefreshText(textHandler.GetOutputText());
             textHandler.ReadPunctuation();
             sceneHandler.PlaySoundFont();
         }
@@ -105,14 +97,14 @@ public abstract class DialogueHandler : MonoBehaviour
         }
         else 
         {
-            textHandler.SetTextSpeedInput(loadedDialogue.GetCurrentDirection().GetTalking().TalkSpeed);
+            textHandler.SetTextSpeedInput(loadedDialogue.CurrentDirection.Characters[loadedDialogue.CurrentDirection.TalkingPos].Character.TalkSpeed);
             return false;
         }
 
     }
     public int[] RecieveInput()
     {
-        DirectionBase currentDirection = loadedDialogue.GetCurrentDirection();
+        DirectionBase currentDirection = loadedDialogue.CurrentDirection;
         while(true)
         {
             switch(currentDirection.GetType().Name)

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Location: {fileID: 11400000, guid: 500875f1a4639a74f8b7ef72c741e1a1, type: 2}
   Characters:
-  - Name: Detective
-    Character: {fileID: 11400000, guid: 17858a7b2a7cff646af83be853887b90, type: 2}
+  - Name: 
+    Character: {fileID: 0}
     Emotion: 0
-    Talking: 1
+    Talking: 0
     Position: {x: 0, y: 0}
-  Text: 'You may think that I '
-  output: -1
+  TalkingPos: 0
+  Text: ' Bean bean beans beans... hahaha lol.'
