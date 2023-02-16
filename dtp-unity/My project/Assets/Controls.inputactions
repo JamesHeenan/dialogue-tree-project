@@ -110,6 +110,17 @@
                 },
                 {
                     "name": "",
+                    "id": "e5f37be1-4052-49fe-8afa-df87eb9019e1",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "continue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "115444a2-d426-462d-8cdc-8ee222880fa9",
                     "path": "<Keyboard>/1",
                     "interactions": "",

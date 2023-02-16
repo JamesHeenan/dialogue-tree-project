@@ -7,7 +7,6 @@ public class TextHandler : MonoBehaviour
 {
     float SpeedInputPressed;
     string outputText;
-    string inputText;
     char letter;
     float textSpeedInput;
     float textSpeedModifier;
@@ -22,10 +21,6 @@ public class TextHandler : MonoBehaviour
     {
         return outputText;
     }
-    public void SetInputText(string input)
-    {
-        inputText = input;
-    }
 
     public void SetTextSpeedInput(float input)
     {
@@ -37,21 +32,22 @@ public class TextHandler : MonoBehaviour
     }
 
 
-    public void AppendToText()
+    public void AppendToText(string input)
     {
-        outputText += inputText;
+        outputText += input;
     }
     public void SetActionOnTypactionOnTypeWriteCompletion(Action action)
     {
         actionOnTypeWriteCompletion = action;
     }
-    public IEnumerator TypeWrite()
+    public IEnumerator TypeWrite(string input)
     {
-        foreach(char c in inputText.ToCharArray())
+        foreach(char c in input.ToCharArray())
         {
             letter = c;
             outputText += c;
             actionOnLetterAdded();
+            ReadPunctuation();
             yield return new WaitForSeconds(textSpeedInput*textSpeedModifier);
         }
         actionOnTypeWriteCompletion();

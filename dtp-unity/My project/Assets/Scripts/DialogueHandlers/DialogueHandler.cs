@@ -12,9 +12,10 @@ public abstract class DialogueHandler : MonoBehaviour
     {
         //Load Dialogue and Handlers
         loadedDialogue = newDialogue;
-        inputHandler = GetComponent<InputHandler>();
+        //inputHandler = GetComponent<InputHandler>();
         textHandler = GetComponent<TextHandler>();
         sceneHandler = GetComponent<SceneHandler>();
+        inputHandler = GetComponent<InputHandler>();
 
         //Set Up Text Handler
         textHandler.SetActionOnLetterAdded(() => OnLetterAdded());
@@ -32,9 +33,17 @@ public abstract class DialogueHandler : MonoBehaviour
     {
         if(!loadedDialogue.GetDirectionActive()) //if direction isn't active whilst direction matches the index
         {
-            RecieveAndLoadNextDirection();
-            sceneHandler.RefreshScene(loadedDialogue.CurrentDirection);
-            PlayDirection();
+            Index nextIndex = RecieveInput();
+            if(nextIndex != null)
+            {
+                if(nextIndex.GetScript() == -1) loadedDialogue.SetIndexToNextAvailableDirection();
+                else loadedDialogue.SetIndex(nextIndex);
+                loadedDialogue.SetCurrentDirectionFromIndex();
+                sceneHandler.RefreshScene(loadedDialogue.CurrentDirection);
+                textHandler.AppendToText("\n \n");
+                PlayDirection();
+            }
+
         }
     }
     public void EndDialogue()
@@ -42,82 +51,75 @@ public abstract class DialogueHandler : MonoBehaviour
         textHandler = null;
         loadedDialogue = null;
     }
-    public void RecieveAndLoadNextDirection()
-    {
-        int[] nextIndex = RecieveInput();
-        if(nextIndex == null) loadedDialogue.SetIndexToNextAvailableDirection();
-        else loadedDialogue.SetIndex(nextIndex);
-        loadedDialogue.SetCurrentDirectionFromIndex();
-    }
     public void PlayDirection()
     {
         loadedDialogue.SetDirectionActive(true); //Set active while in play
         Debug.Log("loaded dialogue: " + loadedDialogue.CurrentDirection);
-        textHandler.SetTextSpeedInput(loadedDialogue.CurrentDirection.Characters[loadedDialogue.CurrentDirection.TalkingPos].Character.TalkSpeed);
-        textHandler.SetInputText(loadedDialogue.CurrentDirection.Characters[loadedDialogue.CurrentDirection.TalkingPos].GetName() + ":\n");
-        textHandler.AppendToText();
-        textHandler.SetInputText(loadedDialogue.CurrentDirection.Text);
-        StartCoroutine(textHandler.TypeWrite());
+        textHandler.SetTextSpeedInput(loadedDialogue.CurrentDirection.GetTalking().Character.TalkSpeed);
+        textHandler.AppendToText(loadedDialogue.CurrentDirection.GetTalking().GetName() + ":\n");
+        sceneHandler.RefreshText(textHandler.GetOutputText());
+        Debug.Log(loadedDialogue.CurrentDirection.Text);
+        StartCoroutine(textHandler.TypeWrite(loadedDialogue.CurrentDirection.Text));
     }
     public void OnTypeWriteCompletion()
     {
         switch(loadedDialogue.CurrentDirection.GetType().Name)
         {
             case "Direction":
-                //Output for normal Direction
+                textHandler.AppendToText("\n\n1: Continue");
                 break;
             case "InputDirection":
                 InputDirection iD = (InputDirection)loadedDialogue.CurrentDirection;
-                textHandler.SetInputText("\n");
-                textHandler.AppendToText();
+                textHandler.AppendToText("\n");
                 for(int i = 0; i < iD.Inputs.Length; i++) //write out inputs
-                {
-                    textHandler.SetInputText("\n" + (i+1) + ": " + iD.Inputs[i]);
-                    textHandler.AppendToText();
-                }
+                    textHandler.AppendToText("\n" + (i+1) + ": " + iD.Inputs[i]);
                 break;
         }
+        sceneHandler.RefreshText(textHandler.GetOutputText());
         loadedDialogue.SetDirectionActive(false); //On end of Play set false
     }
     public void OnLetterAdded()
     {
+        sceneHandler.RefreshText(textHandler.GetOutputText());
+        sceneHandler.MoveScrollbarTo(0);
         if(!SpeedUpOnContinue())
         {
-            sceneHandler.RefreshText(textHandler.GetOutputText());
-            textHandler.ReadPunctuation();
             sceneHandler.PlaySoundFont();
         }
     }
     public bool SpeedUpOnContinue()
     {
-        if(inputHandler.continueButton.InputPressed()) 
+        if(inputHandler.ContinueDown()) 
         {
             textHandler.SetTextSpeedInput(0.01f); 
             return true;           
         }
         else 
         {
-            textHandler.SetTextSpeedInput(loadedDialogue.CurrentDirection.Characters[loadedDialogue.CurrentDirection.TalkingPos].Character.TalkSpeed);
+            textHandler.SetTextSpeedInput(loadedDialogue.CurrentDirection.GetTalking().Character.TalkSpeed);
             return false;
         }
 
     }
-    public int[] RecieveInput()
+    public Index RecieveInput()
     {
         DirectionBase currentDirection = loadedDialogue.CurrentDirection;
-        while(true)
-        {
+        Index index = null;
             switch(currentDirection.GetType().Name)
             {
                 case "InputDirection":
                     if(inputHandler.GetNumericalInput() > 0)
-                        return currentDirection.GetIndexOutputs()[inputHandler.GetNumericalInput()-1];
+                    {
+                        index = currentDirection.GetIndexOutputs()[inputHandler.GetNumericalInput()-1];
+                    }
                     break;
                 default: //normal Direction
-                    if(inputHandler.continueButton.InputDown()) 
-                        return currentDirection.GetIndexOutputs()[0];     
+                    if(inputHandler.ContinueDown()) 
+                    {
+                        index = currentDirection.GetIndexOutputs()[0];     
+                    }
                     break;
             }
-        }
+        return index;
     }
 }

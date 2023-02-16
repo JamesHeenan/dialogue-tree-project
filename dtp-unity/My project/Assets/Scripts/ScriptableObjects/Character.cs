@@ -24,6 +24,7 @@ public struct ActiveCharacter
     public Character Character;
     public Emotion Emotion;
     public bool Talking;
+    public bool Flipped;
     public Vector2 Position;
 
     public Sprite GetEmotion()

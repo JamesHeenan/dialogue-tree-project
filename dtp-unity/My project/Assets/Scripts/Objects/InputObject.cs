@@ -2,19 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class InputObject
+public struct InputObject
 {
     public Controls controls;
+    public string keyname;
     bool inputDown;
     bool inputPressed;
     bool inputUp;
-    bool inputPressedLastFrame = false;
+    bool inputPressedLastFrame;
 
-    public void SetControls(Controls input)
+    public void SetControls(Controls cInput, string kInput)
     {
-        controls = input;
+        keyname = kInput;
+        controls = cInput;
     }
-    public abstract float DetectInput();
+    public float DetectInput()
+    {
+        return controls.FindAction(keyname).ReadValue<float>();
+    }
 
     public void InputRegisterInteractions()
     {

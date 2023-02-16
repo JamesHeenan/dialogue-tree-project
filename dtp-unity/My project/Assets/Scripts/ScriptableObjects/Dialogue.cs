@@ -14,23 +14,23 @@ public class Script
 public class Dialogue : ScriptableObject
 {
     public Script[] DialogueTree;
-    int[] index;
+    public Index index;
 
     public DirectionBase CurrentDirection;
     bool DirectionActive = false;
 
     public void ResetDialogue()
     {
-        index = new int[] {0,0};
-        CurrentDirection = null;
+        index = new Index();
+        index.SetIndex(0,0);
         DirectionActive = false;
         SetCurrentDirectionFromIndex();
     }
 
-    public void SetIndex(int[] newIndex)
+    public void SetIndex(Index newIndex)
     {
-        if(newIndex[0] < DialogueTree.Length && newIndex[1] < DialogueTree[0].Directions.Length)
-            index = newIndex;
+        if(newIndex.GetScript() < DialogueTree.Length && newIndex.GetDirection() < DialogueTree[0].Directions.Length)
+            index.SetIndex(newIndex.GetScript(), newIndex.GetDirection());
         else
         {
             Debug.Log("index of " + newIndex + " does not exist in the Dialogue Tree");
@@ -47,18 +47,18 @@ public class Dialogue : ScriptableObject
     }
     public bool CurrentDirectionMatchesIndex()
     {
-        return DialogueTree[index[0]].Directions[index[1]] == CurrentDirection;
+        return DialogueTree[index.GetScript()].Directions[index.GetDirection()] == CurrentDirection;
     }
     public void SetCurrentDirectionFromIndex()
     {
-        CurrentDirection = DialogueTree[index[0]].Directions[index[1]];
+        CurrentDirection = DialogueTree[index.GetScript()].Directions[index.GetDirection()];
     }
     public void SetIndexToNextAvailableDirection()
     {
-        if(index[1] < DialogueTree[index[0]].Directions.Length -1)
-            index[1]++;
+        if(index.GetDirection() < DialogueTree[index.GetScript()].Directions.Length -1)
+            index.SetIndex(index.GetScript(), index.GetDirection() + 1);
         else
-            index[0]++;
+            index.SetIndex(index.GetScript() + 1, index.GetDirection());
     }
     
 }

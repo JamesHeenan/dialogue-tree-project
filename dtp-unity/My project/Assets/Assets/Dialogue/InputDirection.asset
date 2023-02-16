@@ -14,13 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Location: {fileID: 11400000, guid: 500875f1a4639a74f8b7ef72c741e1a1, type: 2}
   Characters:
-  - Name: 
-    Character: {fileID: 0}
+  - Name: Detective
+    Character: {fileID: 11400000, guid: 17858a7b2a7cff646af83be853887b90, type: 2}
     Emotion: 0
     Talking: 0
-    Position: {x: 0, y: 0}
-  TalkingPos: 0
-  Text: Hey kid, I'm a Detective.
+    Flipped: 0
+    Position: {x: -5, y: 0}
+  - Name: Boi
+    Character: {fileID: 11400000, guid: be362209bde7a20489ced1db888abd2e, type: 2}
+    Emotion: 0
+    Talking: 1
+    Flipped: 1
+    Position: {x: 5, y: 0}
+  IndexOutputs:
+  - script: 0
+    direction: 0
+  - script: 0
+    direction: 2
+  Text: What are you doing around here?
   Inputs:
-  - Hi Detective, I'm Dad
-  - More info pls
+  - Sorry, what did you say?
+  - I don't know, I just woke up
