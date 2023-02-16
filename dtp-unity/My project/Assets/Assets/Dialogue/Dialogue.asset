@@ -17,8 +17,9 @@ MonoBehaviour:
     Directions:
     - {fileID: 11400000, guid: aa3394553ef77f54e9aafe9a1b97138e, type: 2}
     - {fileID: 11400000, guid: 2f8a2a185db19e740a6bb3f0a2f052fa, type: 2}
+    - {fileID: 11400000, guid: 8c55190ca257a2e4ba3ae04490667bdc, type: 2}
     - {fileID: 11400000, guid: 18df3b29165d80e498698ba6d9b10d27, type: 2}
   index:
-    Script: 1
-    Direction: 2
-  CurrentDirection: {fileID: 11400000, guid: 18df3b29165d80e498698ba6d9b10d27, type: 2}
+    script: 0
+    direction: 0
+  CurrentDirection: {fileID: 11400000, guid: aa3394553ef77f54e9aafe9a1b97138e, type: 2}

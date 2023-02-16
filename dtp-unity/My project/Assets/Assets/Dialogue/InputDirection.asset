@@ -30,8 +30,11 @@ MonoBehaviour:
   - script: 0
     direction: 0
   - script: 0
+    direction: 3
+  - script: 0
     direction: 2
-  Text: What are you doing around here?
+  Text: Hold on, what are you doing around here?
   Inputs:
-  - Sorry, what did you say?
+  - Sorry wait, did you say Detective?
   - I don't know, I just woke up
+  - Why are you in a superhero costume?

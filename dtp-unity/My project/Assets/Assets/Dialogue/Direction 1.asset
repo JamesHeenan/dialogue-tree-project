@@ -14,22 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Location: {fileID: 11400000, guid: 500875f1a4639a74f8b7ef72c741e1a1, type: 2}
   Characters:
-  - Name: Detectuve
+  - Name: Detective
     Character: {fileID: 11400000, guid: 17858a7b2a7cff646af83be853887b90, type: 2}
     Emotion: 0
-    Talking: 0
+    Talking: 1
     Flipped: 0
     Position: {x: -5, y: 0}
-  - Name: Detectuve
+  - Name: Superdood
     Character: {fileID: 11400000, guid: be362209bde7a20489ced1db888abd2e, type: 2}
     Emotion: 1
-    Talking: 1
+    Talking: 0
     Flipped: 1
     Position: {x: 5, y: 0}
   IndexOutputs:
-  - script: 0
+  - script: -1
     direction: 0
-  Text: 'Oh is that so? Welp, you''re in Nior City now...
+  Text: 'Welp, you''re in Nior City now...
 
-    You do know where
-    that is right?'
+    You do know where that is right?'
