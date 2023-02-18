@@ -27,7 +27,9 @@ public abstract class DialogueHandler : MonoBehaviour
         //Create the Scene probably should be in a scene handler
         sceneHandler.ResetScene();
         sceneHandler.RefreshScene(loadedDialogue.CurrentDirection);
-        PlayDirection();
+        StartCoroutine(sceneHandler.FadeInToScene(1f, ()=> {
+                    PlayDirection();
+        }));
     }
     public void ContinueDialogue()
     {
