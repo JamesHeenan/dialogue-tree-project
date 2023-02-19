@@ -14,14 +14,19 @@ public class Index
         script = s;
         direction = d;
     }
+    public Index ReturnDefaultIndex()
+    {
+        Index tmp = new Index();
+        tmp.SetIndex(-1,0);
+        return tmp;
+    }
 }
 [System.Serializable]
 public abstract class DirectionBase :ScriptableObject
 {
     public Location Location;
     public ActiveCharacter[] Characters;
-    [SerializeField] Index[] IndexOutputs;
-    [TextArea(3,10)] public string Text;
+    [SerializeField] Index[] IndexOutputs = {new Index().ReturnDefaultIndex()};
 
     public ActiveCharacter GetTalking()
     {
@@ -43,7 +48,12 @@ public abstract class DirectionBase :ScriptableObject
 
 }
 
+public abstract class DirectionTextBase : DirectionBase
+{
+    [TextArea(3,10)] public string Text;
+}
+
 [CreateAssetMenu(fileName = "Direction", menuName = "DialogueObjects/Direction", order = 0)]
-public class Direction : DirectionBase
+public class Direction : DirectionTextBase
 {
 }

@@ -12,6 +12,7 @@ public abstract class DialogueHandler : MonoBehaviour
     {
         //Load Dialogue and Handlers
         loadedDialogue = newDialogue;
+        loadedDialogue.ResetDialogue();
         //inputHandler = GetComponent<InputHandler>();
         textHandler = GetComponent<TextHandler>();
         sceneHandler = GetComponent<SceneHandler>();
@@ -21,13 +22,12 @@ public abstract class DialogueHandler : MonoBehaviour
         textHandler.SetActionOnLetterAdded(() => OnLetterAdded());
         textHandler.SetActionOnTypactionOnTypeWriteCompletion(() => OnTypeWriteCompletion());
 
-        //Reset the Dialogue properties
-        loadedDialogue.ResetDialogue();
-
         //Create the Scene probably should be in a scene handler
         sceneHandler.ResetScene();
         sceneHandler.RefreshScene(loadedDialogue.CurrentDirection);
-        StartCoroutine(sceneHandler.FadeInToScene(1f, ()=> {
+        //Reset the Dialogue properties
+        loadedDialogue.SetDirectionActive(true);
+        StartCoroutine(sceneHandler.FadeInToScene(1f,0,()=> {
                     PlayDirection();
         }));
     }
@@ -38,10 +38,14 @@ public abstract class DialogueHandler : MonoBehaviour
             Index nextIndex = RecieveInput();
             if(nextIndex != null)
             {
+
                 if(nextIndex.GetScript() == -1) loadedDialogue.SetIndexToNextAvailableDirection();
                 else loadedDialogue.SetIndex(nextIndex);
                 loadedDialogue.SetCurrentDirectionFromIndex();
                 sceneHandler.RefreshScene(loadedDialogue.CurrentDirection);
+                //Set textHandler to log instead of Visuals
+                textHandler.SetOutputText(sceneHandler.log);
+                sceneHandler.RefreshText(textHandler.GetOutputText());
                 textHandler.AppendToText("\n \n");
                 PlayDirection();
             }
@@ -56,12 +60,44 @@ public abstract class DialogueHandler : MonoBehaviour
     public void PlayDirection()
     {
         loadedDialogue.SetDirectionActive(true); //Set active while in play
-        Debug.Log("loaded dialogue: " + loadedDialogue.CurrentDirection);
-        textHandler.SetTextSpeedInput(loadedDialogue.CurrentDirection.GetTalking().Character.TalkSpeed);
-        textHandler.AppendToText(loadedDialogue.CurrentDirection.GetTalking().GetName() + ":\n");
-        sceneHandler.RefreshText(textHandler.GetOutputText());
-        Debug.Log(loadedDialogue.CurrentDirection.Text);
-        StartCoroutine(textHandler.TypeWrite(loadedDialogue.CurrentDirection.Text));
+        switch(loadedDialogue.CurrentDirection.GetType().Name)
+        {
+            case "Direction":
+            case "InputDirection":
+                Debug.Log("loaded dialogue: " + loadedDialogue.CurrentDirection);
+                DirectionTextBase DirectionTextBase = (DirectionTextBase)loadedDialogue.CurrentDirection;
+                //Update and Show Visual Script
+                textHandler.SetTextSpeedInput(DirectionTextBase.GetTalking().Character.TalkSpeed);
+                textHandler.AppendToText(DirectionTextBase.GetTalking().GetName() + ":\n");
+                sceneHandler.RefreshText(textHandler.GetOutputText());
+                //Update Log
+                sceneHandler.AppendToLog(DirectionTextBase.GetTalking().GetName() + ":\n");
+                Debug.Log(DirectionTextBase.Text);
+                //Update Log
+                sceneHandler.AppendToLog(DirectionTextBase.Text);
+                //Update Typewrite
+                StartCoroutine(textHandler.TypeWrite(DirectionTextBase.Text));
+                break;
+            case "TransitionDirection":
+                TransitionDirection TransistionDirection = (TransitionDirection)loadedDialogue.CurrentDirection;
+                switch(TransistionDirection.TransitionType)
+                    {
+                        case TransitionType.FadeInToScene:
+                            StartCoroutine(sceneHandler.FadeInToScene(TransistionDirection.DurationOfTransition,TransistionDirection.DurationDelay, ()=> {
+                                loadedDialogue.SetDirectionActive(false); //On end of Play set false
+                            }));
+                            break;
+                        case TransitionType.FadeToBlack:
+                            StartCoroutine(sceneHandler.FadeToBlack(TransistionDirection.DurationOfTransition, TransistionDirection.DurationDelay, ()=> {
+                                loadedDialogue.SetDirectionActive(false); //On end of Play set false
+                            }));
+                            break;
+                    }
+                break;
+        }
+
+        //If direction has a text input
+
     }
     public void OnTypeWriteCompletion()
     {
@@ -71,10 +107,10 @@ public abstract class DialogueHandler : MonoBehaviour
                 textHandler.AppendToText("\n\n1: Continue");
                 break;
             case "InputDirection":
-                InputDirection iD = (InputDirection)loadedDialogue.CurrentDirection;
+                InputDirection tmp = (InputDirection)loadedDialogue.CurrentDirection;
                 textHandler.AppendToText("\n");
-                for(int i = 0; i < iD.Inputs.Length; i++) //write out inputs
-                    textHandler.AppendToText("\n" + (i+1) + ": " + iD.Inputs[i]);
+                for(int i = 0; i < tmp.Inputs.Length; i++) //write out inputs
+                    textHandler.AppendToText("\n" + (i+1) + ": " + tmp.Inputs[i]);
                 break;
         }
         sceneHandler.RefreshText(textHandler.GetOutputText());
@@ -91,9 +127,9 @@ public abstract class DialogueHandler : MonoBehaviour
     }
     public bool SpeedUpOnContinue()
     {
-        if(inputHandler.ContinueDown()) 
+        if(inputHandler.ButtonPressed("continue")) 
         {
-            textHandler.SetTextSpeedInput(0.01f); 
+            textHandler.SetTextSpeedInput(0); 
             return true;           
         }
         else 
@@ -110,13 +146,20 @@ public abstract class DialogueHandler : MonoBehaviour
             switch(currentDirection.GetType().Name)
             {
                 case "InputDirection":
-                    if(inputHandler.GetNumericalInput() > 0)
+                    Debug.Log("input direction detected");
+                    int input = inputHandler.GetNumericalInput();
+                    if(input > -1 && input < currentDirection.GetIndexOutputs().Length)
                     {
-                        index = currentDirection.GetIndexOutputs()[inputHandler.GetNumericalInput()-1];
+                        InputDirection tmp = (InputDirection)currentDirection;
+                        sceneHandler.AppendToLog("\n" + (input+1) + ": " + tmp.Inputs[input]);
+                        index = currentDirection.GetIndexOutputs()[input];
                     }
                     break;
+                case "TransitionDirection":
+                    index = currentDirection.GetIndexOutputs()[0];
+                    break;
                 default: //normal Direction
-                    if(inputHandler.ContinueDown()) 
+                    if(inputHandler.ButtonDown("continue")) 
                     {
                         index = currentDirection.GetIndexOutputs()[0];     
                     }

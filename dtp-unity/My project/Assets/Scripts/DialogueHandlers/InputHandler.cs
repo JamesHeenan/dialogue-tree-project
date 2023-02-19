@@ -5,7 +5,7 @@ public class InputHandler : MonoBehaviour
 {
     public Controls controls;
 
-    bool continueDown;
+    public bool buttonDown;
     private void Awake()
     {
         controls = new Controls();
@@ -20,28 +20,45 @@ public class InputHandler : MonoBehaviour
 
     public int GetNumericalInput()
     {
-        if(controls.FindAction("one").ReadValue<float>() > 0) return 1;
-        else if(controls.FindAction("two").ReadValue<float>() > 0) return 2;
-        else if(controls.FindAction("three").ReadValue<float>() > 0) return 3;
-        else if(controls.FindAction("four").ReadValue<float>() > 0) return 4;
-        else if(controls.FindAction("five").ReadValue<float>() > 0) return 5;
-        else if(controls.FindAction("six").ReadValue<float>() > 0) return 6;
-        else if(controls.FindAction("seven").ReadValue<float>() > 0) return 7;
-        else if(controls.FindAction("eight").ReadValue<float>() > 0) return 8;
-        else if(controls.FindAction("nine").ReadValue<float>() > 0) return 9;
-        else return 0;
+        if(ButtonDown("one")) return 0;
+        else if(ButtonDown("two")) return 1;
+        else if(ButtonDown("three")) return 2;
+        else if(ButtonDown("four")) return 3;
+        else if(ButtonDown("five")) return 4;
+        else if(ButtonDown("six")) return 5;
+        else if(ButtonDown("seven")) return 6;
+        else if(ButtonDown("eight")) return 7;
+        else if(ButtonDown("nine")) return 8;
+        else return -1;
     }
 
-        public bool ContinueDown()
+    public bool ButtonDown(string button)
     {
-        if(controls.FindAction("continue").ReadValue<float>() > 0 && !continueDown) 
+        if(controls.FindAction(button).ReadValue<float>() > 0) 
         {
-            continueDown = true;
+            if(!buttonDown)
+            {
+                buttonDown = true;
+                return true;
+            }
+            else return false;
+        }
+        else 
+        {
+            buttonDown = false;
+            return false;
+        }
+    }
+    public bool ButtonPressed(string button)
+    {
+        if(controls.FindAction(button).ReadValue<float>() > 0)
+        {
+            buttonDown = true;
             return true;
         }
         else 
         {
-            continueDown = false;
+            buttonDown = false;
             return false;
         }
     }

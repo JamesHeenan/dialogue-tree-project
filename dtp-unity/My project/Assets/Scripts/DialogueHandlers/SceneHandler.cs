@@ -13,6 +13,7 @@ public class SceneHandler : MonoBehaviour
     public GameObject characterObjectPrefab;
     List<GameObject> characterObjects;
     public TextMeshProUGUI textObject;
+    public string log;
     public Scrollbar scrollbar;
     public void RefreshScene(DirectionBase direction)
     {
@@ -72,37 +73,41 @@ public class SceneHandler : MonoBehaviour
     {
         locationObject.GetComponent<AudioSource>().Play();
     }
+    public void AppendToLog(string input)
+    {
+        log += input;
+    }
 
-    public IEnumerator FadeToBlack(float duration, Action action)
+    public IEnumerator FadeToBlack(float duration, float DurationDelay, Action action)
     {
         Color tmp = overlay.GetComponent<SpriteRenderer>().color;
         tmp.a = 0; //set aplha to 0
         overlay.GetComponent<SpriteRenderer>().color = tmp;
         overlay.SetActive(true);
-        for (int i = 0; i <= duration*10; i++)
+        for (int i = 0; i <= duration*100; i++)
         {
             //increase alpha by 1/duration*10
-            tmp.a += 1/(duration*10f);
+            tmp.a += 1/(duration*100f);
             overlay.GetComponent<SpriteRenderer>().color = tmp;
-            yield return new WaitForSecondsRealtime(0.1f);   
+            yield return new WaitForSecondsRealtime(0.01f);   
         }
+        yield return new WaitForSecondsRealtime(DurationDelay);
         action();
     }
-    public IEnumerator FadeInToScene(float duration, Action action)
+    public IEnumerator FadeInToScene(float DurationOfTransition, float DurationDelay, Action action)
     {
-        Debug.Log("started");
         Color tmp = overlay.GetComponent<SpriteRenderer>().color;
         tmp.a = 1; //set aplha to 0
         overlay.GetComponent<SpriteRenderer>().color = tmp;
-        for (int i = 0; i <= duration*10; i++)
+        for (int i = 0; i <= DurationOfTransition*100; i++)
         {
             //increase alpha by 1/duration*10
-            Debug.Log("alpha: " + tmp.a.ToString());
-            tmp.a -= 1/(duration*10f);
+            tmp.a -= 1/(DurationOfTransition*100f);
             overlay.GetComponent<SpriteRenderer>().color = tmp;
-            yield return new WaitForSecondsRealtime(0.1f);   
+            yield return new WaitForSecondsRealtime(0.01f);   
         }
         overlay.SetActive(false);
+        yield return new WaitForSecondsRealtime(DurationDelay);
         action();       
     }
 }

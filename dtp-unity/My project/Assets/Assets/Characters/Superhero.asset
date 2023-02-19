@@ -16,4 +16,4 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9f534b029cdda794b9447afa79efd530, type: 3}
   - {fileID: 21300000, guid: 4f24f46634a6d6f43ac967c8b9b38366, type: 3}
   SoundFont: {fileID: 0}
-  TalkSpeed: 0
+  TalkSpeed: 0.025

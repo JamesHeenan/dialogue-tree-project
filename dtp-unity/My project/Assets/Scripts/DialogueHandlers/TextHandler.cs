@@ -21,6 +21,10 @@ public class TextHandler : MonoBehaviour
     {
         return outputText;
     }
+    public void SetOutputText(string input)
+    {
+        outputText = input;
+    }
 
     public void SetTextSpeedInput(float input)
     {
@@ -48,15 +52,16 @@ public class TextHandler : MonoBehaviour
             outputText += c;
             actionOnLetterAdded();
             ReadPunctuation();
-            yield return new WaitForSeconds(textSpeedInput*textSpeedModifier);
+            yield return new WaitForSecondsRealtime(textSpeedInput*textSpeedModifier);
         }
         actionOnTypeWriteCompletion();
     }
 
     public void ReadPunctuation()
     {
-        if(letter == '.' || letter == '!' || letter == '?') textSpeedModifier = 25f;
-        else if(letter == ',') textSpeedModifier = 12.5f;
-        else textSpeedModifier = 0;
+        if(letter == '.' || letter == '!' || letter == '?') textSpeedModifier = 12f;
+        else if(letter == ';' || letter == ':') textSpeedModifier = 9f;
+        else if(letter == ',') textSpeedModifier = 6f;
+        else textSpeedModifier = 1;
     }
 }
