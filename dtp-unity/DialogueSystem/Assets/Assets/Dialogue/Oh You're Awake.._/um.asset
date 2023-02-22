@@ -9,15 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c65d06c955208f442a6259d0f7090a29, type: 3}
-  m_Name: Are you coming
+  m_Script: {fileID: 11500000, guid: 75f7d598f577b454b93a5a013bdc86b2, type: 3}
+  m_Name: um
   m_EditorClassIdentifier: 
   IndexOutputs:
-  - script: 0
+  - script: -1
     direction: 0
-  - script: 0
-    direction: 0
-  Text: Will you build a Visual Novel with us?
-  Inputs:
-  - Sure thing!
-  - Actually I'm not too fussed...
+  Text: ...

@@ -67,6 +67,7 @@ public abstract class DialogueHandler : MonoBehaviour
                 loadedDialogue.SetDirectionActive(false); //End of Play
                 break;
             case "TextDirection":
+            case "InputDirection":
                 TextDirection textDirection = (TextDirection)loadedDialogue.CurrentDirection;
                 //Update and Show Visual Script
                 textHandler.SetTextSpeedInput(sceneHandler.loadedSceneDirection.GetTalking().Character.TalkSpeed);

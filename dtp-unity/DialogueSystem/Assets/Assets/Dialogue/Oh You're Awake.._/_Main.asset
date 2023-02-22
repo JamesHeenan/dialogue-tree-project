@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1c76f33fb58dc54bb8692e71ef0dc86, type: 3}
-  m_Name: Main
+  m_Name: _Main
   m_EditorClassIdentifier: 
   DialogueTree:
   - ScriptName: 
@@ -30,7 +30,17 @@ MonoBehaviour:
     - {fileID: 11400000, guid: e195e74c5545d6d44a7c1035a925dba7, type: 2}
     - {fileID: 11400000, guid: b2994892774d18b4a989083e075149a6, type: 2}
     - {fileID: 11400000, guid: a74e0f323f7555f4699fc5517f948f43, type: 2}
+    - {fileID: 11400000, guid: 3d0d561e505929347b09609d00c729af, type: 2}
+    - {fileID: 11400000, guid: dd939a66e28d564409c442a5e3577e30, type: 2}
+    - {fileID: 11400000, guid: 1385d7fd2c858a44f98142bf4113f200, type: 2}
+    - {fileID: 11400000, guid: 705fcc7b70cb0ae4385014f048ca1663, type: 2}
+    - {fileID: 11400000, guid: 3d0d561e505929347b09609d00c729af, type: 2}
+    - {fileID: 11400000, guid: 8d55588d6485c5d4994ce004cc2bc8c2, type: 2}
+    - {fileID: 11400000, guid: 1385d7fd2c858a44f98142bf4113f200, type: 2}
+    - {fileID: 11400000, guid: 9f66240284111c5409322704eaf146e3, type: 2}
+    - {fileID: 11400000, guid: 8fa7c7433ccfb6b4c95af238e8ae102b, type: 2}
+    - {fileID: 11400000, guid: a70ee6a93f5f17e47983b05825bde051, type: 2}
   index:
     script: 0
-    direction: 0
-  CurrentDirection: {fileID: 11400000, guid: 1385d7fd2c858a44f98142bf4113f200, type: 2}
+    direction: 3
+  CurrentDirection: {fileID: 11400000, guid: b64fcbef153c7c14bb1361144893e332, type: 2}
