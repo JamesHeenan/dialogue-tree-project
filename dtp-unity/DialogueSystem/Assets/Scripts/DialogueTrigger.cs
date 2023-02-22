@@ -15,5 +15,6 @@ public class DialogueTrigger : DialogueHandler
     void Update()
     {
         ContinueDialogue();
+        
     }
 }

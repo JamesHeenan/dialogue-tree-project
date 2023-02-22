@@ -133,7 +133,7 @@ public abstract class DialogueHandler : MonoBehaviour
     }
     public bool SpeedUpOnContinue()
     {
-        if(inputHandler.ButtonPressed("continue")) 
+        if(inputHandler.ButtonHeld("continue")) 
         {
             textHandler.SetTextSpeedInput(0); 
             return true;           
@@ -152,7 +152,6 @@ public abstract class DialogueHandler : MonoBehaviour
             switch(currentDirection.GetType().Name)
             {
                 case "InputDirection":
-                    Debug.Log("input direction detected");
                     int input = inputHandler.GetNumericalInput();
                     if(input > -1 && input < currentDirection.GetIndexOutputs().Length)
                     {
@@ -166,7 +165,6 @@ public abstract class DialogueHandler : MonoBehaviour
                     index = currentDirection.GetIndexOutputs()[0];
                     break;
                 default: //normal Direction
-                Debug.Log("Default Continue Detected");
                     if(inputHandler.ButtonDown("continue")) 
                     {
                         sceneHandler.AppendToLog("\n \n");
@@ -179,7 +177,7 @@ public abstract class DialogueHandler : MonoBehaviour
 
     public void ToggleOnTab()
     {
-        if(inputHandler.ButtonPressed("tab"))
+        if(inputHandler.ButtonHeld("tab"))
             sceneHandler.ToggleTextBoxSize(true);
         else sceneHandler.ToggleTextBoxSize(false);
     }

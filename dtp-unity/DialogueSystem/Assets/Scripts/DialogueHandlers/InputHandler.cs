@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 public class InputHandler : MonoBehaviour
 {
     public Controls controls;
-
-    public bool buttonDown;
     private void Awake()
     {
         controls = new Controls();
@@ -14,10 +13,14 @@ public class InputHandler : MonoBehaviour
     {
         controls.Enable();
     }
-    public void Start() 
+    private void OnDisable() 
     {
+        controls.Disable();    
     }
+    
+    private void Update() {
 
+    }
     public int GetNumericalInput()
     {
         if(ButtonDown("one")) return 0;
@@ -34,33 +37,13 @@ public class InputHandler : MonoBehaviour
 
     public bool ButtonDown(string button)
     {
-        if(controls.FindAction(button).ReadValue<float>() > 0) 
-        {
-            if(!buttonDown)
-            {
-                buttonDown = true;
-                return true;
-            }
-            else return false;
-        }
-        else 
-        {
-            buttonDown = false;
-            return false;
-        }
+        if(controls.FindAction(button).WasPressedThisFrame()) return true;
+        else return false;
     }
-    public bool ButtonPressed(string button)
+    public bool ButtonHeld(string button)
     {
-        if(controls.FindAction(button).ReadValue<float>() > 0)
-        {
-            buttonDown = true;
-            return true;
-        }
-        else 
-        {
-            buttonDown = false;
-            return false;
-        }
+        if(controls.FindAction(button).ReadValue<float>() > 0) return true;
+        else return false; 
     }
 }
  
