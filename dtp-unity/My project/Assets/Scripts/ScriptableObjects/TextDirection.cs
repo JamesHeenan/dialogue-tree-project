@@ -22,25 +22,10 @@ public class Index
     }
 }
 [System.Serializable]
-public abstract class DirectionBase :ScriptableObject
+public abstract class Direction :ScriptableObject
 {
-    public Location Location;
-    public ActiveCharacter[] Characters;
     [SerializeField] Index[] IndexOutputs = {new Index().ReturnDefaultIndex()};
 
-    public ActiveCharacter GetTalking()
-    {
-        ActiveCharacter tmp = new ActiveCharacter();
-        for (int i = 0; i < Characters.Length; i++)
-        {
-            if(Characters[i].Talking)
-            {
-                tmp = Characters[i];
-                return tmp;
-            }
-        }
-        return tmp;
-    }
     public Index[] GetIndexOutputs()
     {
         return IndexOutputs;
@@ -48,12 +33,8 @@ public abstract class DirectionBase :ScriptableObject
 
 }
 
-public abstract class DirectionTextBase : DirectionBase
+[CreateAssetMenu(fileName = "TextDirection", menuName = "DialogueObjects/TextDirection", order = 0)]
+public class TextDirection : Direction
 {
     [TextArea(3,10)] public string Text;
-}
-
-[CreateAssetMenu(fileName = "Direction", menuName = "DialogueObjects/Direction", order = 0)]
-public class Direction : DirectionTextBase
-{
 }

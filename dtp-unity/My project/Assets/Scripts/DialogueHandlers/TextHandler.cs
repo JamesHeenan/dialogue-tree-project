@@ -6,7 +6,7 @@ using UnityEngine;
 public class TextHandler : MonoBehaviour
 {
     float SpeedInputPressed;
-    string outputText;
+    public string outputText;
     char letter;
     float textSpeedInput;
     float textSpeedModifier;

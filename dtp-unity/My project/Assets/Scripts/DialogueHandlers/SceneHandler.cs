@@ -12,22 +12,27 @@ public class SceneHandler : MonoBehaviour
     public GameObject overlay;
     public GameObject characterObjectPrefab;
     List<GameObject> characterObjects;
-    public TextMeshProUGUI textObject;
+    public TextMeshProUGUI textUI;
     public string log;
+    public GameObject textObject;
+    public Vector2[] basePosAndSize;
+    public Vector2[] expandedPosAndSize;
     public Scrollbar scrollbar;
-    public void RefreshScene(DirectionBase direction)
+    public SceneDirection loadedSceneDirection;
+    public void RefreshScene(SceneDirection direction)
     {
+        loadedSceneDirection = (SceneDirection)direction;
         GameObject tmp = null;
-        locationObject.GetComponent<SpriteRenderer>().sprite = direction.Location.Sprite;
-        locationObject.GetComponent<AudioSource>().clip = direction.GetTalking().Character.SoundFont;
-        for (int i = 0; i < direction.Characters.Length; i++)
+        locationObject.GetComponent<SpriteRenderer>().sprite = loadedSceneDirection.Location.Sprite;
+        locationObject.GetComponent<AudioSource>().clip = loadedSceneDirection.GetTalking().Character.SoundFont;
+        for (int i = 0; i < loadedSceneDirection.Characters.Length; i++)
         {
             if(i+1 > characterObjects.Count)
             {
                 tmp = Instantiate(characterObjectPrefab);
                 characterObjects.Add(tmp);
             }
-            if(!direction.Characters[i].Talking) 
+            if(!loadedSceneDirection.Characters[i].Talking) 
             {
                 characterObjects[i].GetComponent<SpriteRenderer>().color = notTalking;
                 characterObjects[i].GetComponent<Transform>().localScale = new Vector3(0.9f,0.9f,0);
@@ -37,13 +42,13 @@ public class SceneHandler : MonoBehaviour
                 characterObjects[i].GetComponent<SpriteRenderer>().color = Color.white;
                 characterObjects[i].GetComponent<Transform>().localScale = new Vector3(1f,1f,0);
             }
-            if(direction.Characters[i].Flipped) characterObjects[i].GetComponent<SpriteRenderer>().flipX = true;
+            if(loadedSceneDirection.Characters[i].Flipped) characterObjects[i].GetComponent<SpriteRenderer>().flipX = true;
             else characterObjects[i].GetComponent<SpriteRenderer>().flipX = false;
-            characterObjects[i].GetComponent<SpriteRenderer>().sprite = direction.Characters[i].GetEmotion();
-            characterObjects[i].GetComponent<Transform>().position = direction.Characters[i].Position;
+            characterObjects[i].GetComponent<SpriteRenderer>().sprite = loadedSceneDirection.Characters[i].GetEmotion();
+            characterObjects[i].GetComponent<Transform>().position = loadedSceneDirection.Characters[i].Position;
 
         }
-        for (int i = direction.Characters.Length; i < characterObjects.Count; i++)
+        for (int i = loadedSceneDirection.Characters.Length; i < characterObjects.Count; i++)
         {
             tmp = characterObjects[i];
             characterObjects.Remove(tmp);
@@ -53,8 +58,7 @@ public class SceneHandler : MonoBehaviour
     }
     public void RefreshText(string input)
     {
-        textObject.text = input;
-        textObject.text += "\n\n";
+        textUI.text = input;
         MoveScrollbarTo(0);
     }
     public void MoveScrollbarTo(int input)
@@ -77,7 +81,14 @@ public class SceneHandler : MonoBehaviour
     {
         log += input;
     }
-
+    public void SetOverlayAlpha(float alphaLevel)
+    {
+        Color tmp = overlay.GetComponent<SpriteRenderer>().color;
+        tmp.a = alphaLevel;
+        overlay.GetComponent<SpriteRenderer>().color = tmp;
+        if(alphaLevel == 0) overlay.SetActive(false);
+        else overlay.SetActive(true);
+    }
     public IEnumerator FadeToBlack(float duration, float DurationDelay, Action action)
     {
         Color tmp = overlay.GetComponent<SpriteRenderer>().color;
@@ -97,7 +108,7 @@ public class SceneHandler : MonoBehaviour
     public IEnumerator FadeInToScene(float DurationOfTransition, float DurationDelay, Action action)
     {
         Color tmp = overlay.GetComponent<SpriteRenderer>().color;
-        tmp.a = 1; //set aplha to 0
+        tmp.a = 1; //set aplha to 1
         overlay.GetComponent<SpriteRenderer>().color = tmp;
         for (int i = 0; i <= DurationOfTransition*100; i++)
         {
@@ -109,5 +120,19 @@ public class SceneHandler : MonoBehaviour
         overlay.SetActive(false);
         yield return new WaitForSecondsRealtime(DurationDelay);
         action();       
+    }
+    public void ToggleTextBoxSize(bool input)
+    {
+        if(input)
+        {
+            textObject.GetComponent<RectTransform>().anchoredPosition = expandedPosAndSize[0];
+            textObject.GetComponent<RectTransform>().sizeDelta = expandedPosAndSize[1];
+        }
+        else
+        {
+            textObject.GetComponent<RectTransform>().anchoredPosition = basePosAndSize[0];
+            textObject.GetComponent<RectTransform>().sizeDelta = basePosAndSize[1];
+        }
+
     }
 }

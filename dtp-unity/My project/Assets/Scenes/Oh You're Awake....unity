@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &173215298 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1041504267426771384, guid: 9592d9b2f823eda4b8326b152d173054, type: 3}
+  m_PrefabInstance: {fileID: 1041504266854048675}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &472561114
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,7 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e17cdbea0e23cb14bbd734fc75a34597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: {fileID: 11400000, guid: 478464fb868193f458bbd1fe7fcf0dbf, type: 2}
+  dialogue: {fileID: 11400000, guid: 15214a5926123aa47bd6317f843b02e5, type: 2}
 --- !u!4 &472561116
 Transform:
   m_ObjectHideFlags: 0
@@ -187,9 +192,17 @@ MonoBehaviour:
   locationObject: {fileID: 1675442989}
   overlay: {fileID: 2049388299}
   characterObjectPrefab: {fileID: 4934740896534826942, guid: f244118d59277f34d80f3cb77d07ff83, type: 3}
-  textObject: {fileID: 1041504266854048676}
+  textUI: {fileID: 1041504266854048676}
   log: 
+  textObject: {fileID: 173215298}
+  basePosAndSize:
+  - {x: -0.43, y: 67.00999}
+  - {x: 780.67, y: 99.5}
+  expandedPosAndSize:
+  - {x: -0.43, y: 205.2502}
+  - {x: 780.67, y: 375.33}
   scrollbar: {fileID: 1896537520}
+  loadedSceneDirection: {fileID: 0}
 --- !u!114 &472561118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,6 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b703a005765b1e64296328bafbffbe2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outputText: 
 --- !u!114 &472561119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -668,6 +682,14 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1041504265638435549, guid: 9592d9b2f823eda4b8326b152d173054, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1041504265638435549, guid: 9592d9b2f823eda4b8326b152d173054, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1041504266662030948, guid: 9592d9b2f823eda4b8326b152d173054, type: 3}
       propertyPath: m_Pivot.y
       value: 0
@@ -862,7 +884,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1041504267426771391, guid: 9592d9b2f823eda4b8326b152d173054, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1041504267426771391, guid: 9592d9b2f823eda4b8326b152d173054, type: 3}
       propertyPath: m_AnchorMin.x
@@ -870,7 +892,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1041504267426771391, guid: 9592d9b2f823eda4b8326b152d173054, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1041504267426771391, guid: 9592d9b2f823eda4b8326b152d173054, type: 3}
       propertyPath: m_SizeDelta.x
@@ -914,7 +936,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1041504267426771391, guid: 9592d9b2f823eda4b8326b152d173054, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -157.99
+      value: 67.009995
       objectReference: {fileID: 0}
     - target: {fileID: 1041504267426771391, guid: 9592d9b2f823eda4b8326b152d173054, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

@@ -15,6 +15,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "tab",
+                    "type": "Button",
+                    "id": "ee1d37ca-aa98-4ad6-a85d-858a34a1415e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "one",
                     "type": "Button",
                     "id": "25552b8a-f4ce-4daa-a8f4-94225674ef1e",
@@ -215,6 +224,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "nine",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "080aa1cc-fc7c-439a-9f43-0048ba168110",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "tab",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

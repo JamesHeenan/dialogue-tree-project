@@ -6,7 +6,7 @@ using UnityEngine;
 public class Script
 {
     public string ScriptName;
-    public DirectionBase[] Directions;
+    public Direction[] Directions;
 }
 
 
@@ -16,7 +16,7 @@ public class Dialogue : ScriptableObject
     public Script[] DialogueTree;
     public Index index;
 
-    public DirectionBase CurrentDirection;
+    public Direction CurrentDirection;
     bool DirectionActive = false;
 
     public void ResetDialogue()

@@ -37,6 +37,15 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""tab"",
+                    ""type"": ""Button"",
+                    ""id"": ""ee1d37ca-aa98-4ad6-a85d-858a34a1415e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""one"",
                     ""type"": ""Button"",
                     ""id"": ""25552b8a-f4ce-4daa-a8f4-94225674ef1e"",
@@ -239,6 +248,17 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""action"": ""nine"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""080aa1cc-fc7c-439a-9f43-0048ba168110"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""tab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -248,6 +268,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         // Dialogue
         m_Dialogue = asset.FindActionMap("Dialogue", throwIfNotFound: true);
         m_Dialogue_continue = m_Dialogue.FindAction("continue", throwIfNotFound: true);
+        m_Dialogue_tab = m_Dialogue.FindAction("tab", throwIfNotFound: true);
         m_Dialogue_one = m_Dialogue.FindAction("one", throwIfNotFound: true);
         m_Dialogue_two = m_Dialogue.FindAction("two", throwIfNotFound: true);
         m_Dialogue_three = m_Dialogue.FindAction("three", throwIfNotFound: true);
@@ -317,6 +338,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Dialogue;
     private IDialogueActions m_DialogueActionsCallbackInterface;
     private readonly InputAction m_Dialogue_continue;
+    private readonly InputAction m_Dialogue_tab;
     private readonly InputAction m_Dialogue_one;
     private readonly InputAction m_Dialogue_two;
     private readonly InputAction m_Dialogue_three;
@@ -331,6 +353,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         private @Controls m_Wrapper;
         public DialogueActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @continue => m_Wrapper.m_Dialogue_continue;
+        public InputAction @tab => m_Wrapper.m_Dialogue_tab;
         public InputAction @one => m_Wrapper.m_Dialogue_one;
         public InputAction @two => m_Wrapper.m_Dialogue_two;
         public InputAction @three => m_Wrapper.m_Dialogue_three;
@@ -352,6 +375,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @continue.started -= m_Wrapper.m_DialogueActionsCallbackInterface.OnContinue;
                 @continue.performed -= m_Wrapper.m_DialogueActionsCallbackInterface.OnContinue;
                 @continue.canceled -= m_Wrapper.m_DialogueActionsCallbackInterface.OnContinue;
+                @tab.started -= m_Wrapper.m_DialogueActionsCallbackInterface.OnTab;
+                @tab.performed -= m_Wrapper.m_DialogueActionsCallbackInterface.OnTab;
+                @tab.canceled -= m_Wrapper.m_DialogueActionsCallbackInterface.OnTab;
                 @one.started -= m_Wrapper.m_DialogueActionsCallbackInterface.OnOne;
                 @one.performed -= m_Wrapper.m_DialogueActionsCallbackInterface.OnOne;
                 @one.canceled -= m_Wrapper.m_DialogueActionsCallbackInterface.OnOne;
@@ -386,6 +412,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @continue.started += instance.OnContinue;
                 @continue.performed += instance.OnContinue;
                 @continue.canceled += instance.OnContinue;
+                @tab.started += instance.OnTab;
+                @tab.performed += instance.OnTab;
+                @tab.canceled += instance.OnTab;
                 @one.started += instance.OnOne;
                 @one.performed += instance.OnOne;
                 @one.canceled += instance.OnOne;
@@ -420,6 +449,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     public interface IDialogueActions
     {
         void OnContinue(InputAction.CallbackContext context);
+        void OnTab(InputAction.CallbackContext context);
         void OnOne(InputAction.CallbackContext context);
         void OnTwo(InputAction.CallbackContext context);
         void OnThree(InputAction.CallbackContext context);
